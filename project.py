@@ -55,7 +55,7 @@ def project():
     print("However nothing shows, and you are far too exaughsted to use magic for a lighter fall ")
     print("Seconds feels like hours as you recall your past memories, you know that this is the end.\n")
     input("Your current location is now in mid-air, as you just lept from the " + fl3 + ".")
-    print("You have now reached " + death + " soon you feel a burst of pain and then everything gets numb as your consciousness fades...\n" )
+    print("You have now reached " + death + " soon you feel a burst of pain and then everything gets numb as your consciousness fades...\n")
     score = score + 5
     input("Your Final score was:" + str(score) + " ,It seems this is the end...\n")
     if score == (15):
