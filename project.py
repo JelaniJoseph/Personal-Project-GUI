@@ -14,7 +14,8 @@ def project():
     print("You find yourself at the bottom of a large spiraling tower.")
     print(" After a long journey you have finally located the stronghold ")
     print("if you don't hurry soon the village will be overun with monsters.")
-    print("You ready your weapons and magic and begin to enter the stronghold.\n")
+    print("You ready your weapons and magic ")
+    print("and begin to enter the stronghold.\n")
     print("You start on the " + fl1 + " and see ")
     print("the first defender it seems to be a stone golem. ")
     print("The golem rushes to attack you but you quickly dodge it, ")
@@ -56,7 +57,7 @@ def project():
     print(" This time it is a set of ladders.\n")
     input("Press Enter to view your score, and location\n")
     score = score + 5
-    input("Your score is now:" + str(score) + " ,and you are currently at the " + fl2 + ".")
+    input("Your score is now:" + " " + str(score) + " ,and you are currently at the " + fl2 + ".")
     input("Press Enter to continue...\n")
     print(" After climbing for some time you reach " + fl3 + ",")
     print(" and notice how foggy and blocked the area seems\n")
@@ -86,9 +87,10 @@ def project():
     print("You have now reached " + death + " soon you feel a ")
     print("burst of pain and then everything gets numb as your consciousness fades...\n")
     score = score + 5
-    input("Your Final score was:" + str(score) + " ,It seems this is the end...\n")
+    input("Your Final score was:" + " " + str(score) + " ,It seems this is the end...\n")
     if score == (15):
         print("You Died...")
+
 
 project()
 
