@@ -4,14 +4,16 @@
 
 def project():
 
+    current = str("bottom of a tower")
     fl1 = str("first floor")
     fl2 = str("second floor")
     fl3 = str("third floor")
-    death = str("the ground")
+    final = str("the ground")
+    email_jel = str("jelani.joseph1@marist.edu")
     score = 0
     print("Welcome to Tower_Game\n")
     print("Backstory:\n")
-    print("You find yourself at the bottom of a large spiraling tower.")
+    print("You find yourself at the " + current + ".")
     print(" After a long journey you have finally located the stronghold ")
     print("if you don't hurry soon the village will be overun with monsters.")
     print("You ready your weapons and magic ")
@@ -22,10 +24,8 @@ def project():
     print("you aim your attack at the core, slaying the golem in one blow")
     print("you insert the core from the golem into the slothole ")
     print("the doors slide open and reveal stairs to the next floor")
-    input("Press Enter to view your score, and location\n")
     score = score + 5
     input("Your score is now:" + " " + str(score) + " ,and you are currently at the " + fl1 + ".")
-    input("Press Enter to continue:\n ")
     print("Going up to " + fl2 + ".\n")
     print("You wait for a while staring at the staircase, ")
     print("catching your breath after the sudden burst of addrenaline")
@@ -55,10 +55,8 @@ def project():
     print(" Already knowing what to do you grasp the bone key, ")
     print("insert it in the keywhole further down and unlock the next area.")
     print(" This time it is a set of ladders.\n")
-    input("Press Enter to view your score, and location\n")
     score = score + 5
     input("Your score is now:" + " " + str(score) + " ,and you are currently at the " + fl2 + ".")
-    input("Press Enter to continue...\n")
     print(" After climbing for some time you reach " + fl3 + ",")
     print(" and notice how foggy and blocked the area seems\n")
     input("Your current location is now " + fl3 + " Press Enter to continue...\n")
@@ -84,13 +82,14 @@ def project():
     print("Seconds feels like hours as you recall your past memories, ")
     print("you know that this is the end.\n")
     input("Your current location is now in mid-air, as you just lept from the " + fl3 + ".")
-    print("You have now reached " + death + " soon you feel a ")
+    print("You have now reached " + final + " soon you feel a ")
     print("burst of pain and then everything gets numb as your consciousness fades...\n")
     score = score + 5
     input("Your Final score was:" + " " + str(score) + " ,It seems this is the end...\n")
     if score == (15):
-        print("You Died...")
-
+        print("You Died...\n")
+    print("Copyright: This game was created by Jelani, and Daniel\n")
+    print("If you have any questions feel free to email " + email_jel)
 
 project()
 
