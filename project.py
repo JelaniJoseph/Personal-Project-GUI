@@ -11,7 +11,13 @@ def project():
     fl4 = str("Fourth floor")
     fl5 = str("Last floor")
     final = str("the ground")
-    fl_visited = False
+    fl0_visited = False
+    fl1_visited = False
+    fl2_visited = False
+    fl3_visited = False
+    fl4_visited = False
+    fl5_visited = False
+    final_visited = False
     score = 0
     start = title(fl0)
     game_start = game_loop(fl1, score, fl2, fl3, fl4, fl5)
@@ -28,6 +34,7 @@ def title(fl0):
     print("blacking out, and then waking up here. ")
     print("Not knowing what to do you decide to go up the tower.")
     print("You ready yourself for whats to come.\n")
+    fl0_visited = True
     # add input for player name here
     return(fl0)
 
@@ -54,7 +61,7 @@ def game_loop(fl1, score, fl2, fl3, fl4, fl5):
         print("the doors slide open and reveal stairs to the next floor\n")
         location = fl1
         if location == fl1:
-            fl_visited = True
+            fl1_visited = True
             score, location = change(score, location)
         print("Going up to the " + fl2 + ".\n")
         print("You wait for a while staring at the staircase, ")
@@ -87,7 +94,7 @@ def game_loop(fl1, score, fl2, fl3, fl4, fl5):
         print(" This time it is a set of ladders.\n")
         location = fl2
         if location == fl2:
-            fl_visited = True
+            fl2_visited = True
             score, location = change(score, location)
         print(" and notice how foggy and blocked the area seems")
         print(" After looking around you find the area ")
@@ -105,7 +112,7 @@ def game_loop(fl1, score, fl2, fl3, fl4, fl5):
         print("In your wondering you stumble upon the next ladder\n")
         location = fl3
         if location == fl3:
-            fl_visited = True
+            fl3_visited = True
             score, location = change(score, location)
         print("you realize that the ground is strangely soft.")
         print(" Upon closer inspection you notice that the ground resembles")
@@ -122,7 +129,7 @@ def game_loop(fl1, score, fl2, fl3, fl4, fl5):
         print(" Barely making it out you reach the ladders.\n")
         location = fl4
         if location == fl4:
-            fl_visited = True
+            fl4_visited = True
             score, location = change(score, location)
         print("Looking around you see the area is completely flat and there is only a mirror")
         print("Curious, you contemplate if you look into the mirror ")
@@ -146,7 +153,7 @@ def game_loop(fl1, score, fl2, fl3, fl4, fl5):
         print("The force of the being sends you flying through the wall, and you find yourself free falling\n")
         location = fl5
         if location == fl5:
-            fl_visited = True
+            fl_5visited = True
             score, location = change(score, location)
         break
         
