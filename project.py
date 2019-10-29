@@ -2,8 +2,8 @@
 # This program will simulate a text-based game
 # Project ver 2
 
-def project():
 
+def project():
     fl0 = str("bottom of a tower")
     fl1 = str("first floor")
     fl2 = str("second floor")
@@ -24,7 +24,7 @@ def project():
     Ending = end_screen(email_jel, score, fl5)
 
 
-# Displays the title screen and Intro 
+# Displays the title screen and Intro
 def title(fl0):
     print("Welcome to Tower_Game")
     print("=========================\n")
@@ -36,8 +36,9 @@ def title(fl0):
     print("Not knowing what to do you decide to go up the tower.")
     print("You ready yourself for whats to come.\n")
     print("Instructions:\n")
-    print(" when prompted to input a command type: 'do' for dodge "
-    "'df' for defend, and 'at' for attack. Otherwise type 'Help' for help, and 'quit' to exit the game.\n")
+    print(" when prompted to input a command type: 'do' for dodge")
+    print("'df' for defend, and 'at' for attack. Otherwise")
+    print("type 'Help' for help, and 'quit' to exit the game.\n")
     print("Otherwise, have fun! and thanks for playing Tower_Game!")
     input("Press Enter to Start")
     fl0_visited = True
@@ -47,9 +48,8 @@ def title(fl0):
 
 # Function to add to score, and show location visited
 def change(score, location):
-    score +=5
-    my_list = ['Second Floor', 'Second Floor', 'Third Floor','Fourth floor', 'Last Floor', 'The Ground']
-     
+    score+=5
+    my_list = ['Second Floor', 'Second Floor', 'Third Floor', 'Fourth floor', 'Last Floor', 'Ground']
     print("Your score is now:", str(score))
     print("You have passed", location)
     print("Going up to the", my_list[score // 5], "\n")
@@ -58,9 +58,7 @@ def change(score, location):
 
 # Main game loop, when you see player take it out for the variable
 def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
-
     while True:
-        
         print("You start on the " + fl1 + " and see ")
         print("the first defender it seems to be a stone golem. ")
         print("The golem rushes to attack you but you quickly ")
@@ -77,12 +75,11 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
             exit()
         elif choice == 'help':
             print("the commands are: 'df' for defend, and, 'at' for attack.")
-            print("Otherwise type 'Help' for help, and 'quit' to exit the game.")
-            continue
+            print("Otherwise type 'Help' for help, and 'quit' to exit the game.\n")
+            choice = input("Please type an action: ").lower()
         else:
             print("Invalaid command, please refer to the Instructions.\n")
             continue
-
         print("a core drops from the golem's chest and it collapses.")
         print("you insert the core from the golem into the slothole ")
         print("the doors slide open and reveal stairs to the next floor\n")
@@ -107,7 +104,6 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
         choice = input("Please type an action: ").lower()
         if choice == 'do':
             print("You dodge the banshee but as it passes you it suddenly dissapears ")
-            
         elif choice == 'df':
             print("You activate your barrier as the banshee approaches ")
             print("The banshee phases through it and screams inside the barrier")
@@ -116,14 +112,14 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
             exit()
         elif choice == 'help':
             print("the commands are: 'df' for defend, and, 'at' for attack.")
-            print("Otherwise type 'Help' for help, and 'quit' to exit the game.") 
+            print("Otherwise type 'Help' for help, and 'quit' to exit the game.")
+            choice = input("Please type an action: ").lower()
         elif choice == 'at':
             print("You charge a fireball and blast it toward the banshee")
             print("But it was not strong enough! the beast flys right through it ")
         else:
             print("Invalaid command, please refer to the Instructions.\n")
             continue
-        
         print("shocked from what just happened you freeze, wondering what to do next")
         print(" While in shock, the banshee scratches you, and an icey sharp pain is felt. ")
         print("regaining your senses you quickly dart back getting out of range.")
@@ -139,12 +135,12 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
             exit()
         elif choice == 'help':
             print("the commands are: 'df' for defend, and, 'at' for attack.")
-            print("Otherwise type 'Help' for help, and 'quit' to exit the game.") 
+            print("Otherwise type 'Help' for help, and 'quit' to exit the game.\n")
+            choice = input("Please type an action: ").lower()
         elif choice == 'df':
             print("You activate your barrier again except this time")
             print("it is enhanced with spirit energy")
             print("As the banshee touches the pure energy it begins to fade away")
-            
         elif choice == 'at':
             print("This time you decide to call upon shadow magic")
             print("You charge a shadow ball and fire it at the banshee!")
@@ -152,7 +148,6 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
         else:
             print("Invalaid command, please refer to the Instructions.\n")
             continue
-               
         print("After you exit the door for the stairs, the door behind you closes.")
         print("You take a moment to catch your breath, and begin heading toward")
         print(" the stairs to the next floor.\n")
@@ -184,11 +179,11 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
         print(" scatterd all around the floor.")
         print("slowly you walk avoiding the puddles, when suddenly you hear something.")
         print(" It sounded as if something were in the puddles...")
-        print(playername,"thinks carefully about your next actions.")
+        print(playername, "thinks carefully about your next actions.")
         print(" Suddenly a large aligator emerges from one of the puddles and moves to another.")
         print(" Terrified, you stand still in awe of the speed and size of the beast.")
         print(" After some time you decide what to do")
-        if fl3_visited == True:
+        if fl3_visited is True:
             print("Realizing how far you've come you are filled with determination")
             print("You feel a burst of addrenaline, and time seems to slow down for you")
             choice = input("Please type an action: ").lower()
@@ -200,12 +195,12 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
                 exit()
             elif choice == 'help':
                 print("the commands are: 'df' for defend, and, 'at' for attack.")
-                print("Otherwise type 'Help' for help, and 'quit' to exit the game.") 
+                print("Otherwise type 'Help' for help, and 'quit' to exit the game.")
+                choice = input("Please type an action: ").lower()
             elif choice == 'df':
                 print("You cast a strong barrier as the beast charges")
                 print("It slams its head against the barrier but it is too dense to be broken")
                 print("The beast shatters it skull against your barrier and dies")
-             
             elif choice == 'at':
                 print("You charge a fire blast and fire away at the beast!")
                 print("you seem to hit a vital spot and the beast looses control of its direction")
@@ -213,7 +208,6 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
             else:
                 print("Invalaid command, please refer to the Instructions.\n")
                 continue
-               
         print("Feeling exaughsted you drag yourself to the next staircase.\n")
         location = fl4
         if location == fl4:
@@ -233,30 +227,27 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
         print(" You see a large ball of fire growing larger infront of the being.")
         print("It seems like its charging an attack! as the blast approaches you decide to")
         choice = input("Please type an action: ").lower()
-        if fl4_visited == True:
-            if choice == 'do':
-                print("You dodge the creature, after enhancing yourself it charges past you, and through a wall")
-                print("It bursts through the wall and falls to its death.")
-             
-            elif choice == 'df':
-                print("You cast a strong barrier as the beast charges")
-                print("It slams its head against the barrier but it is too dense to be broken")
-                print("The beast shatters it skull against your barrier and dies")
-            elif choice == 'at':
-                print("You charge a fire blast and fire away at the beast!")
-                print("you seem to hit a vital spot and the beast looses control of its direction")
-                print("The beast falls down and bleeds out, it wont be moving anytime soon.")
-            elif choice == 'help':
-                print("the commands are: 'df' for defend, and, 'at' for attack.")
-                print("Otherwise type 'Help' for help, and 'quit' to exit the game.")
-                continue
-            elif choice == 'quit':
-                print("exiting game")
-                exit()  
-            else:
-                print("Invalaid command, please refer to the Instructions.\n")
-                continue
-
+        if choice == 'do':
+            print("You dodge the creature, after enhancing yourself it charges past you, and through a wall")
+            print("It bursts through the wall and falls to its death.")
+        elif choice == 'df':
+            print("You cast a strong barrier as the beast charges")
+            print("It slams its head against the barrier but it is too dense to be broken")
+            print("The beast shatters it skull against your barrier and dies")
+        elif choice == 'at':
+            print("You charge a fire blast and fire away at the beast!")
+            print("you seem to hit a vital spot and the beast looses control of its direction")
+            print("The beast falls down and bleeds out, it wont be moving anytime soon.")
+        elif choice == 'help':
+            print("the commands are: 'df' for defend, and, 'at' for attack.")
+            print("Otherwise type 'Help' for help, and 'quit' to exit the game.")
+            choice = input("Please type an action: ").lower()
+        elif choice == 'quit':
+            print("exiting game")
+            exit()
+        else:
+            print("Invalaid command, please refer to the Instructions.\n")
+            continue
         print("The blast is far too large and powerful,", playername + " is swallowed up by it!")
         print("Soon you feel the pain hit you all at once, its excruciating!")
         print("You see the being rushing toward you, you know its trying to deliver the finishing blow.")
@@ -270,15 +261,17 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
 
 
 # Ending screen with copyright
-def end_screen(email_jel, score, fl5):
+def end_screen(email_jel, score, fl5,):
     print("Your current location is now in mid-air, as you were sent flying")
-    print("You have now reached "  " soon you feel a second ")
+    print("You have now reached " + fl5 + " soon you feel a second ")
     print("burst of pain and then everything gets numb as your consciousness fades...\n")
-    if fl5_visited == True:
+    location = fl5
+    if location == fl5:
         print("You reflect on your journey as you plumit whilst on fire...")
-    print("You wake up realizing that it was all a dream, yet your body aches all over\n")
-    print("Copyright: This game was created by Jelani, and Daniel\n")
-    print("If you have any questions feel free to email " + email_jel)
+        print("You wake up realizing that it was all a dream, yet your body aches all over\n")
+        print("Copyright: This game was created by Jelani, and Daniel\n")
+        print("If you have any questions feel free to email " + email_jel)
     return(email_jel, score, fl5)
+
 
 project()
