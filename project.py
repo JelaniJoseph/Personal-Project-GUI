@@ -4,109 +4,89 @@
 
 
 def project():
-    fl0 = str("bottom of a tower")
-    fl1 = str("first floor")
-    fl2 = str("second floor")
-    fl3 = str("third floor")
-    fl4 = str("Fourth floor")
-    fl5 = str("Last floor")
-    fl0_visited = False
-    fl1_visited = False
-    fl2_visited = False
-    fl3_visited = False
-    fl4_visited = False
-    fl5_visited = False
-    final_visited = False
+    locations = ['forest', 'Cabin', 'Tundra', 'Ocean', 'Cave', 'Tunnel', 'House', 'Ground']
+    track_loc = [False, False, False, False, False, False, False, False]
     score = 0
-    start = title(fl0)
-    game_start = game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, start[1])
+    start = title(locations)
+    game_loop(locations, track_loc, start[0:], score)
     email_jel = str("jelani.joseph1@marist.edu")
     Ending = end_screen(email_jel, score, fl5)
 
 
 # Displays the title screen and Intro
-def title(fl0):
-    print("Welcome to Tower_Game")
+def title(locations):
+    print("Welcome to Bio-Saga")
     print("=========================\n")
-    playername = input("Enter a username here: ")
     print("Backstory:\n")
-    print("You find yourself at the " + fl0 + ".")
-    print("The last thing you can remember is drinking a strange potion, ")
-    print("blacking out, and then waking up here. ")
-    print("Not knowing what to do you decide to go up the tower.")
-    print("You ready yourself for whats to come.\n")
+    print("You find yourself inside a", locations[0])
+    print("Your head hurts, and you cant remember how you got here.")
+    print("You try and remember your name... it was something like..")
+    playername = input("Enter a username here: ")
+    print("You look around and see that you are surrounded by strange trees.")
+    print("Not knowing what else to do or where to go you get up and begin to wander.")
+    print("Soon you find a sort of entrance in the forest, you decide to walk in.\n")
     print("Instructions:\n")
-    print(" when prompted to input a command type: 'do' for dodge")
-    print("'df' for defend, and 'at' for attack. Otherwise")
-    print("type 'Help' for help, and 'quit' to exit the game.\n")
-    print("Otherwise, have fun! and thanks for playing Tower_Game!")
+    print(" when prompted to input a command type: 'forward' to go forwards")
+    print("'right' to turn right, 'left' to go left, and 'think' to think Otherwise")
+    print("type 'Help' for help, 'score' to view current score, and 'quit' to exit the game.\n")
+    print("Otherwise, have fun! and thanks for playing Bio-Saga!")
     input("Press Enter to Start")
-    fl0_visited = True
-    # add input for player name here
-    return(fl0, playername)
+    return(playername)
 
 
 # Function to add to score, and show location visited
-def change(score, location):
+def change(score):
     score+=5
-    my_list = ['Second Floor', 'Second Floor', 'Third Floor', 'Fourth floor', 'Last Floor', 'Ground']
-    print("Your score is now:", str(score))
-    print("You have passed", location)
-    print("Going up to the", my_list[score // 5], "\n")
-    return(score, location)
+    return(score)
 
 
 # Main game loop, when you see player take it out for the variable
-def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
+def game_loop(locations, track_loc, playername, score):
     while True:
-        print("You start on the " + fl1 + " and see ")
-        print("the first defender it seems to be a stone golem. ")
-        print("The golem rushes to attack you but you quickly ")
+        print("As you enter the strange", locations[0], "you feel as if your being watched....")
+        print("cold, and confused you continue trying to find some clues as to where you are.")
+        print("As you walk you come across a winding path with three possible paths.\n")
+        print("How will you advance?")
         choice = input("Please type an action: ").lower()
-        if choice == 'do':
-            print("You dodge the golem, and it crumbles from its own might ")
-        elif choice == 'df':
-            print("You activate your barrier as the golem punches, ")
-            print("The beast falls backwards and crumbles away")
-        elif choice == 'at':
-            print("You quickly charge a fireball and blast the beast")
+        if choice == 'forward':
+            print("You decide to keep walking forward. ")
+        elif choice == 'left':
+            print("You decide to take the left path, and begin to walk. ")
+        elif choice == 'right':
+            print("You decide to take the right path, and begin to walk. ")
         elif choice == 'quit':
             print("exiting game")
             exit()
         elif choice == 'help':
-            print("the commands are: 'df' for defend, and, 'at' for attack.")
+            print("the commands are: 'forward', 'right', 'left'")
             print("Otherwise type 'Help' for help, and 'quit' to exit the game.\n")
             choice = input("Please type an action: ").lower()
         else:
             print("Invalaid command, please refer to the Instructions.\n")
             continue
-        print("a core drops from the golem's chest and it collapses.")
-        print("you insert the core from the golem into the slothole ")
-        print("the doors slide open and reveal stairs to the next floor\n")
-        location = fl1
-        if location == fl1:
-            fl1_visited = True
-            score, location = change(score, location)
-        print("You wait for a while staring at the staircase, ")
-        print("catching your breath after the sudden burst of addrenaline")
-        print("After a while you calm yourself practicing breathing techniques ")
-        print("and will yourself to walk up to the next level ")
-        print("Upon reaching the", fl2 + "you look ")
-        print("around and notice that the field is strangely empty and very dark.")
-        print(" observing the enviroment, slowly walking ")
-        print("around the floor suddenly a ear-piercing cry is heard")
-        print("You turn around to see a Banshee of sorts, ")
-        print("it is pitch black and see-through the beast has long sharp claws")
-        print("and an unhinged jaw filled with sharp rows of teeth, ")
-        print("the creature turns to you and its eyes turn red")
-        print("You begin to feel uneasy as you know the battle is about to begin")
-        print("The beast charges at you with full speed, ")
-        choice = input("Please type an action: ").lower()
-        if choice == 'do':
-            print("You dodge the banshee but as it passes you it suddenly dissapears ")
-        elif choice == 'df':
-            print("You activate your barrier as the banshee approaches ")
-            print("The banshee phases through it and screams inside the barrier")
+        print("you soon arrive at  another area of the forest, the trees somehow seem more sinister")
+        print("You start to notice that the forest has gone completely silent,")
+        print("a low roar can be heard in the distance, it would be best to consider which ")
+        print("path you choose from now on...\n")
+        track_loc[0]
+        score = change(score)
+        print("While walking you begin to wonder why it is you cant remember anything")
+        print("the last thing you can remember was waking up in this forest in pain")
+        print("You stop moving, and begin to try thinking about the situation and how")
+        print(" you plan to find out about your past")
+        print("Suddenly, the low roaring sound begins to pick up")
+        print("whatever is making that noise seems to be approaching you at an alarming rate")
+        print(playername,"decides it would be best to continue as fast as possible")
+        print(" as", playername, "starts to jog they come across another split passage")
+        print("This time the passage only has two routes, forward or right.")
+       # in choices have options that end game and return score
+        choice = input("Which way will you go?: ").lower()
+        if choice == 'forward':
+            # forward story
+            print("")
+        elif choice == 'right':
+            # right path story
+            print("")
         elif choice == 'quit':
             print("exiting game")
             exit()
@@ -114,17 +94,16 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
             print("the commands are: 'df' for defend, and, 'at' for attack.")
             print("Otherwise type 'Help' for help, and 'quit' to exit the game.")
             choice = input("Please type an action: ").lower()
-        elif choice == 'at':
-            print("You charge a fireball and blast it toward the banshee")
-            print("But it was not strong enough! the beast flys right through it ")
+        elif choice == 'left':
+            # left path story
+            print("")
+        elif choice == 'points':
+            score = change(score)
+            print("Your current score is: " + score)
         else:
             print("Invalaid command, please refer to the Instructions.\n")
-            continue
-        print("shocked from what just happened you freeze, wondering what to do next")
-        print(" While in shock, the banshee scratches you, and an icey sharp pain is felt. ")
-        print("regaining your senses you quickly dart back getting out of range.")
-        print("the banshee turns around quickly, it seems angry...")
-        print("you think of what to do next")
+            break
+            # add continuation for path here, and score function
         choice = input("Please type an action: ").lower()
         if choice == 'do':
             print("You enhance your body with spirit magic and prepare to dodge ")
@@ -148,31 +127,12 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
         else:
             print("Invalaid command, please refer to the Instructions.\n")
             continue
-        print("After you exit the door for the stairs, the door behind you closes.")
-        print("You take a moment to catch your breath, and begin heading toward")
-        print(" the stairs to the next floor.\n")
-        location = fl2
-        if location == fl2:
-            fl2_visited = True
-            score, location = change(score, location)
-        print(" and notice how foggy and blocked the area seems")
-        print(" After looking around you find the area ")
-        print("looks almost maze-like... in fact it is a maze!")
-        print(" you begin to walk through the entrance of the maze ")
-        print("and after a few hours of traversing you find yourself lost.")
-        print(" while going through you feel as if something else is in the maze with you... ")
-        print("then you suddenly hear footsteps and heavy breathing ")
-        print(" From the side of your eye you notice a ")
-        print("large black mass approaching you at high speeds!")
-        print("You quickly deicide which path to take to avoid it.")
-        print(" Choosing path on the right, you manage to escape the beast. ")
-        print("You take a moment to calm down, and catch your breath.")
-        print(" Soon you get back up and continue through the maze")
-        print("In your wondering you stumble upon the next ladder\n")
-        location = fl3
-        if location == fl3:
-            fl3_visited = True
-            score, location = change(score, location)
+        # Story 
+        track_loc[1]
+        score
+        # Story
+        track_loc[2]
+        score
         print("you realize that the ground is strangely soft.")
         print(" Upon closer inspection you notice that the ground resembles")
         print(" a marsh enviroment, and that there are multiple puddles")
@@ -209,10 +169,8 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
                 print("Invalaid command, please refer to the Instructions.\n")
                 continue
         print("Feeling exaughsted you drag yourself to the next staircase.\n")
-        location = fl4
-        if location == fl4:
-            fl4_visited = True
-            score, location = change(score, location)
+        track_loc[3]
+        score
         print("Looking around you see the area is completely flat and there is only a mirror")
         print("Curious, you contemplate if you look into the mirror ")
         print("you walk toward the mirror and stare at it for some time")
@@ -253,18 +211,30 @@ def game_loop(fl0, fl1, score, fl2, fl3, fl4, fl5, playername):
         print("You see the being rushing toward you, you know its trying to deliver the finishing blow.")
         print(" You cannot dodge, as you are in too much pain to move that fast.")
         print("The force of the being sends you flying through the wall, and you find yourself free falling\n")
-        location = fl5
-        if location == fl5:
-            fl_5visited = True
-            score, location = change(score, location)
+        track_loc[4]
+        score
+        #story
+        #paths + score return
+        track_loc[5]
+        score
+        # Story
+        # Paths and score return
+        track_loc[6]
+        score
+        # Story
+        # Paths and score return
+        track_loc[7]
+        score
+        # ending part of story
+        # Paths and score return
+        # at end have it lead up to endscreen
         break
 
 
 # Ending screen with copyright
 def end_screen(email_jel, score, fl5,):
-    print("Your current location is now in mid-air, as you were sent flying")
-    print("You have now reached " + fl5 + " soon you feel a second ")
-    print("burst of pain and then everything gets numb as your consciousness fades...\n")
+    # add story for ending involve it with waking up from brink of death
+    # add hearing a voice at end of the tunnel and leave a cliff hanger
     location = fl5
     if location == fl5:
         print("You reflect on your journey as you plumit whilst on fire...")
