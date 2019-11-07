@@ -47,11 +47,10 @@ def playercustom():
 
 # Function to add to score, and show location visited
 def goto(score, track_loc, index):
-    score+=5
+    score= int(score) +5
     index += 1
     track_loc[index] = True
-    return(score, track_loc[index])
-
+    return(score)
 
 # Function takes user input and returns input against the available commands
 # After 10 inputs the user will "run out of time" and will be exited out of the loop
@@ -75,6 +74,7 @@ def game_loop(locations, track_loc, playername, score, index, limit):
         print("cold, and confused you continue trying to find some clues as to where you are.")
         print("As you walk you come across a winding path with three possible paths.\n")
         print("How will you advance?")
+        print("You can go forward, left, or right.")
         choice = get_int("Please type an action: ",['forward', 'left', 'right', 'points', 'quit', 'help'], limit).lower()
         if choice == 'forward':
             print("You decide to keep walking forward. ")
@@ -168,6 +168,7 @@ def game_loop(locations, track_loc, playername, score, index, limit):
             exit()
         elif choice == 'points':
             print("Current score: ", score)
+            choice = get_int("Please type an action: ",['forward', 'left', 'right', 'points', 'quit', 'help'], limit).lower()
         elif choice == 'help':
             print("the commands are: 'forward', 'right', 'left', 'points', and 'map'.")
             print("Otherwise 'quit' to exit the game.")
