@@ -18,8 +18,11 @@ class Player_Data:
     def setname(self):
         print("Player Customization\n")
         print("=====================")
-        self.name = input("Enter Username Here:")
+        self.name = input("Enter Username Here: ")
         print("The journey begins!")
+    def getname(self):
+        self.name
+        return(self.name)
     # adds 5 to score everytime it's called
     def update_score(self):
         self.score += 5
@@ -46,12 +49,13 @@ def drop_item(self, inventory):
 
 
 # supposed to count player input and once it reaches set limit exits game
-def timer(move_count):
+def timer(move_count, choice):
     self.move_count += 1
     if move_count >= 10:
         print("You took too long")
         print("The beast catches up and kills you")
         print("You Died...")
         quit()
+    return(choice)
 
 

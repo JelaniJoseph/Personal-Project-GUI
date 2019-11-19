@@ -16,8 +16,8 @@ def project():
     current_locale = locations[0]
     title(locations)
     player = Player_Data(current_locale, move_count)
-    playername = playercustom(player)
-    game_loop(locations, track_loc, playername, score, index, limit)
+    playercustom(player)
+    game_loop(locations, track_loc, player, score, index, limit)
     email_jel = str("jelani.joseph1@marist.edu")
     end_screen(email_jel)
 
@@ -48,10 +48,8 @@ def playercustom(player):
 
 
 # Function to add to score, and show location visited
-def goto(score, track_loc, index, player):
-    player.update_score()  # adds five to score when called
-    index += 1  # allows list below to iterate by 1
-    track_loc[index] = True  # Turns next iteration in list to True
+def goto(player, score):
+    score = player.update_score()
     return(score)
 
 
@@ -101,15 +99,15 @@ def game_loop(locations, track_loc, player, score, index, limit):
         print("You start to notice that the forest has gone completely silent,")
         print("a low roar can be heard in the distance, it would be best to consider which ")
         print("path you choose from now on...\n")
-        player.update_score()
+        goto(player, score)
         print("While walking you begin to wonder why it is you cant remember anything")
         print("the last thing you can remember was waking up in this forest in pain")
         print("You stop moving, and begin to try thinking about the situation and how")
         print("you plan to find out about your past")
         print("Suddenly, the low roaring sound begins to pick up")
         print("whatever is making that noise seems to be approaching you at an alarming rate")
-        print(player.setname(), "decides it would be best to continue as fast as possible")
-        print("as", player.setname(), "starts to jog they come across another split passage")
+        print(player.getname(), "decides it would be best to continue as fast as possible")
+        print("as", player.getname(), "starts to jog they come across another split passage")
         print("This time the passage only has two routes, forward or right.")
         choice = get_int("Please type an action: ", ['forward', 'right', 'points', 'quit', 'help'], limit).lower()
         if choice == 'forward':
@@ -139,8 +137,8 @@ def game_loop(locations, track_loc, player, score, index, limit):
         print("You squint and can barely make out the figure of a log cabin")
         print("while you gaze at the log cabin a roar heard in the distance catches your attention")
         print("Whatever it is thats approaching its even close than before you decide to hide out in the cabin")
-        print(player.setname(), " leaves now enters the", locations[1], ".\n")
-        score = goto(score, track_loc, index)
+        print(player.getname(), " leaves now enters the", locations[1], ".\n")
+        goto(player, score)
         print("As you enter", locations[1], "you feel slightly safer")
         print("You decide that now is a good time to think about the situation")
         print("While your lost in deep thought trying to remember anything you have a vision")
@@ -158,7 +156,7 @@ def game_loop(locations, track_loc, player, score, index, limit):
         print("Freezing, and confused you try and look at your surrounding area to see where to go")
         print("You see that your only  way to go is either forward, or check the map")
         print("Afterall theres no point in wandering aimlessly!\n")
-        score = goto(score, track_loc, index)
+        goto(player, score)
         choice = get_int("Please type an action: ", ['forward', 'points', 'quit', 'map', 'help'], limit).lower()
         if choice == 'forward':
             print("you decide to go straight ahead unknowing the dangers that lie ahead!")
@@ -186,7 +184,7 @@ def game_loop(locations, track_loc, player, score, index, limit):
             print("You see that the best path to take and memorize it")
             print("before you leave you remember the winter gear from the past vision")
             print("after scavenging around for a few minuets you find the gear and equip it")
-            print(player.setname(), "walks out of the house and begins to follow the path.")
+            print(player.getname(), "walks out of the house and begins to follow the path.")
         else:
             choice = get_int("Please type an action: ", ['forward', 'points', 'quit', 'help'], limit).lower()
         print("After following the path you soon find yourself in-front of a large", locations[3])
@@ -210,7 +208,7 @@ def game_loop(locations, track_loc, player, score, index, limit):
             exit()
         else:
             choice = get_int("Please type an action: ", ['yes', 'no'], limit).lower()
-        score = goto(score, track_loc, index)
+        goto(player, score)
         print("With your burst of adrenaline you swim as fast as you can downards like you saw in the vision")
         print("While swimming you feel as if a presence is coming after you, you quicken your pace")
         print("Soon you enter the", locations[4], "and the entrance seals, whatever behind it also being blocked off")
@@ -221,7 +219,7 @@ def game_loop(locations, track_loc, player, score, index, limit):
         print("it reads: forward, right")
         print("you decide it would be best to memorize this pattern.")
         print("As you advance you come across three pathways, it seems you must choose one to go on.")
-        score = goto(score, track_loc, index)
+        goto(player, score)
         choice = get_int("Please type an action: ", ['forward', 'left', 'right', 'points', 'quit', 'help'], limit).lower()
         if choice == 'do':
             print("You dodge the creature, after enhancing yourself it charges past you, and through a wall")
@@ -272,7 +270,7 @@ def game_loop(locations, track_loc, player, score, index, limit):
         else:
             choice = get_int("Please type an action: ", ['forward', 'left', 'right', 'points', 'quit', 'help'], limit).lower()
         print("You take the path and now exit", locations[4], "You now enter", locations[5], ".")
-        score = goto(score, track_loc, index)
+        goto(player, score)
         print("This", locations[5], "seems man made and well taken care of.")
         print("you look down both ways and see nothing, the cost looks clear but where should you go from here.")
         print("as you sit down to think about your next move your hand touches something warm")
@@ -285,7 +283,7 @@ def game_loop(locations, track_loc, player, score, index, limit):
         print("after some time walking in the same direction in the tunnel you see a staircase and decide to go up")
         print("After going up you reach a trapdoor, you open it and find yourself in an oddly familiar place")
         print("You are now in what seems to be a", locations[6], ".")
-        score = goto(score, track_loc, index)
+        goto(player, score)
         print("You decide it would be a good time to rest from the long journey")
         print("As you sit down in a chair you begin to drift off into sleep.")
         print("while sleeping you have a dream, and in this dream you see the strange being from the past visions")
@@ -301,7 +299,7 @@ def game_loop(locations, track_loc, player, score, index, limit):
         print("you around to see where you are and now notice just how oddly the house is designed")
         print("There appears to be two doors to choose from.")
         print("Suddenly the being presents itself before the doors and smiles at you.")
-        print(player.setname(), "stands in shock realizing that this is the same being from the visions")
+        print(player.getname(), "stands in shock realizing that this is the same being from the visions")
         print("The being states that of these two doors only one will lead to the right path\n")
         print("Available commands: 'points', 'right', 'left', 'help', and 'quit'")
         choice = get_int("Please type an action: ", ['left', 'right', 'points', 'quit', 'help'], limit).lower()
@@ -323,7 +321,7 @@ def game_loop(locations, track_loc, player, score, index, limit):
             exit()
         else:
             choice = get_int("Please type an action: ", ['left', 'right', 'points', 'quit', 'help'], limit).lower()
-        score = goto(score, track_loc, index)
+        goto(player, score)
         print("You wake up in", locations[7], ".")
         print("You feel weak and groggy and as you awake you see someone sitting down beside your bed")
         print("they look at you and begin to tear up with a smile on their face.")
