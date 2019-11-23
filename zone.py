@@ -62,13 +62,16 @@ class Tundra_Path(Zone):
          "fight": "you stand your ground!, but the monster claps you"}, "You sink into the icy depths of the water")
 
 
-# class Ocean(Zone):
-#     def __init__(self):
-#         Zone.__init__(self, name = "Ocean" )
+class Ocean(Zone):
+    def __init__(self):
+        Zone.__init__(self, "Ocean", "you're underwater", {"swim": "you swim downwards and reach an underwater cave"},
+        "As you enter the cave, the entrance behind you closes and the water dissapears")
 
-# class Cave(Zone):
-#     def __init__(self):
-#         Zone.__init__(self, name = "Cave" )
+class Cave(Zone):
+    def __init__(self):
+        Zone.__init__(self, "Cave", "the area somehow feels alive...", {"search": "you found a skull key hidden in the rocks!",
+         "continue": "you walk down the cave and soon find yourself in a series of tunnels"}, 
+         "it's almost as if the area is shifting all on its own...")
 
 # class Tunnel(Zone):
 #     def __init__(self):
