@@ -25,6 +25,7 @@ class Zone:
             action = input("\n Incorrect, Try Again >>").lower()
 
 
+
     def area_visited(self):
         if self.visited == True:
             print("Playername has visited: ", self.name)
@@ -32,6 +33,11 @@ class Zone:
 
     def after_desc(self):
         print(self.after)
+
+    def situational(self):
+        print(self.consequence)
+        print("You Died...\n")
+        quit()
 
 
 class Forest(Zone):
@@ -48,6 +54,18 @@ class Forest_Path(Zone):
         Zone.__init__(self, "Forest Pathway", "As you continue through the Forest you see a glint in the trees, and two pathways.", 
         {"right": "You take the right path","left": "You take the left path, but it seems to be a dead end!", "search": "You found something"}, 
          "You continue on!\n", "A pitch black humanoid creature with a smile appears, and kills you", True )
+
+    def situational_actions(self, Forest_Path):        
+        for key, value in self.actions.items():
+            print("[]", key.capitalize())
+        action = input("\nAction >> ").lower()
+        if action in self.actions:
+            print(self.actions[action])
+            # Forest_Path.after_desc(self)
+        if action == action in self.actions['left']:
+            Forest_Path.situational(self)
+        else:
+            action = input("\n Incorrect, Try Again >>").lower()
 
 
 class Cabin(Zone):
@@ -85,7 +103,7 @@ class Cave(Zone):
         Zone.__init__(self, "Cave", "the area somehow feels alive...", {"search": "you found a skull key hidden in the rocks!",
          "continue": "you walk down the cave and soon find yourself in a series of tunnels"}, 
          "it's almost as if the area is shifting all on its own...", "text", True)
-
+        
 
 class Tunnel(Zone):
     def __init__(self):
@@ -99,13 +117,15 @@ class Tunnel(Zone):
 class House(Zone):
     def __init__(self):
         Zone.__init__(self, "House", "Feels safe and cozy...", {"wander": "you begin to look in all of the rooms",
-        "rest": "you decide to sit down and rest for a while"}, "text", True )
+        "rest": "you decide to sit down and rest for a while"}, "Suddenly, something feels strange...",
+         "text", True )
 
 
 class Hospital(Zone):
     def __init__(self):
         Zone.__init__(self, "Hospital", "strangely feels more real than what just happened...",
-        {"waken": "You open your eyes and realize that you are now in a hospital"}, "text", True )
+        {"waken": "You open your eyes and realize that you are now in a hospital"}, "Everything is finally over",
+         "text", True )
     
 
 def main():
@@ -115,18 +135,17 @@ def main():
     forest.after_desc()
     forest2 = Forest_Path()
     forest2.describe()
-    forest2.choose_action()
-    forest2.after_desc()
-    cab = Cabin()
-    cab.describe()
-    cab.choose_action()
-    cab.after_desc()
-    ice = Tundra()
-    ice.describe()
-    ice.choose_action()
-    ice.after_desc()
-    frozen = Tundra_Path()
-    frozen.describe()
-    frozen.choose_action()
-    frozen.after_desc()
+    forest2.situational_actions(Forest_Path)
+    # cab = Cabin()
+    # cab.describe()
+    # cab.choose_action()
+    # cab.after_desc()
+    # ice = Tundra()
+    # ice.describe()
+    # ice.choose_action()
+    # ice.after_desc()
+    # frozen = Tundra_Path()
+    # frozen.describe()
+    # frozen.choose_action()
+    # frozen.after_desc()
 main()
