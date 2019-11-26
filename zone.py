@@ -34,7 +34,8 @@ class Zone:
     def after_desc(self):
         print(self.after)
 
-    def situational(self):
+    def situational(self, action):
+        print(self.actions[action])
         print(self.consequence)
         print("You Died...\n")
         quit()
@@ -55,15 +56,15 @@ class Forest_Path(Zone):
         {"right": "You take the right path","left": "You take the left path, but it seems to be a dead end!", "search": "You found something"}, 
          "You continue on!\n", "A pitch black humanoid creature with a smile appears, and kills you", True )
 
-    def situational_actions(self, Forest_Path):        
+    def situational_actions(self, Forest_Path):   
         for key, value in self.actions.items():
             print("[]", key.capitalize())
         action = input("\nAction >> ").lower()
-        if action in self.actions:
+        if action in self.actions and action != action in self.actions['left']:
             print(self.actions[action])
-            # Forest_Path.after_desc(self)
+            Forest_Path.after_desc(self)
         if action == action in self.actions['left']:
-            Forest_Path.situational(self)
+            Forest_Path.situational(self, action)
         else:
             action = input("\n Incorrect, Try Again >>").lower()
 
