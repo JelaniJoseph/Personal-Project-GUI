@@ -25,7 +25,7 @@ class Zone:
             print("[]", key.capitalize())
         action = input("\nAction >> ").lower()
         if action in self.actions:
-            print(self.actions[action][0])
+            print(self.actions[action])
             return(True)
         else:
             action = input("\n Incorrect, Try Again >>").lower()
@@ -61,7 +61,7 @@ class Forest_Path(Zone):
     def __init__(self):
         Zone.__init__(self, "Forest Pathway", "As you continue through the Forest you see a glint in the trees, and two pathways.", 
         {"right": "You take the right path","left": "You take the left path, but it seems to be a dead end!",
-         "search": ("You found something", coin, True)}, 
+         "search": ("You found a strange coin", coin, True)}, 
          "You continue on!\n", "A pitch black humanoid creature with a smile appears, and kills you", True )
 
 
