@@ -5,6 +5,9 @@ class Items:
         self.description = description
         self.use = use
 
+    def get_name(self):
+        return(self.name)
+
 class Wisp_in_bottle(Items):
     def __init__(self):
         Items.__init__(self, 'A Wisp in a Bottle', 'Will lead you to vicotry!', 1)
