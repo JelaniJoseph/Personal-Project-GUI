@@ -11,7 +11,6 @@ class Zone:
         self.actions = actions
 
 
-
     def describe(self):
         print(self.name)
         print("=========")
@@ -22,20 +21,21 @@ class Zone:
         for key, value in self.actions.items():
             print("[]", key.capitalize())
         action = input("\nAction >> ").lower()
-        if action in self.actions and action != 'location':
+        if action in self.actions and action != 'location'  and action != 'score':
             print(self.actions[action])
             player.set_act_taken()
             self.visited = True
             print(self.after_desc())
-            print(action,self.actions['location'])
             if action  == self.actions['search']:
                 print(self.actions[action])
                 player.set_act_taken()
-                self.searched = True
+                self.searched == True
         elif action == 'location':
             print(self.actions[action] + self.name)
             player.set_act_taken()
             self.choose_action(player)
+        elif action == 'score':
+            print(player.getname(), "score is: ", player.score_return())
         else:
             print("Inccorrect action, Try again")
             player.set_act_taken()
@@ -133,7 +133,7 @@ def location_test(backpack, Wisp_in_bottle, coat, coin):
     consequence= "text is within here", item_list= [backpack], 
     actions= {"left": "You take the left-most path",
         "right": "You take the right-side path", "search": "You found a backpack!",
-        'location': " ", 'score': "t"})
+        'location': "You are in: ", 'score': "Your score is: "})
     Forest_Path = Zone("Forest Pathway", 
     "As you continue through the Forest you see a glint in the trees, and two pathways.", "You continue on!\n", 
         "A pitch black humanoid creature with a smile appears, and kills you", [coin], 
