@@ -9,6 +9,9 @@ class Items:
         return(self.name)
 
 
+    def __str__(self):
+        return '{} {} {}'.format(self.name, self.description, self.use)
+
 Wisp_in_bottle = Items(name = 'A Wisp in a Bottle', description= 'Will lead you to vicotry!', use= 1)
 
 backpack = Items('Red Backpack', 'Looks spacious', 10)

@@ -11,6 +11,7 @@ class Zone:
         self.actions = actions
 
 
+
     def describe(self):
         print(self.name)
         print("=========")
@@ -26,10 +27,22 @@ class Zone:
             player.set_act_taken()
             self.visited = True
             print(self.after_desc())
-            if action  == self.actions['search']:
+            if action  == 'search':
                 print(self.actions[action])
                 player.set_act_taken()
                 self.searched == True
+                print("what will", player.getname(), "do with the item?")
+                print("Type 'take' to take the item, or 'drop' to leave it behind!")
+                decide = input("take, or drop? ")
+                if decide == 'take':
+                    player.take()
+                    player.set_act_taken()
+                    player.inventory_show()
+                elif decide == 'drop':
+                    print(player.drop_item())
+                    player.set_act_taken()
+                else:
+                    decide = ("Try again, take or drop?")
         elif action == 'location':
             print(self.actions[action] + self.name)
             player.set_act_taken()
@@ -47,9 +60,7 @@ class Zone:
 
     # should print the item in that locale list
     def get_item_list(self):
-        self.item_list
         return(self.item_list)
-
 
 
     def area_visited(self):
