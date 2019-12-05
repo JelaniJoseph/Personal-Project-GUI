@@ -41,7 +41,6 @@ class Player_Data:
         self.current_locale = self.location[self.index]
 
 
-
     # make this one get the current location
     def loc_get(self):
         return(self.current_locale)
@@ -49,10 +48,10 @@ class Player_Data:
 
     # take item from itemlist in zone, add to inventory for player
     def take(self):
-        item_list = self.current_locale.get_item_list()
-        for i in item_list:
-            self.inventory.append(i)
-            print('{} was added to the inventory!'.format(i.get_name()))
+        locale_items = self.current_locale.get_item_list()
+        for item in locale_items:
+            self.inventory.append(item)
+            print('{} was added to the inventory!'.format(item.get_name()))
 
 
     # Shows whats in the inventory
@@ -74,10 +73,6 @@ class Player_Data:
             return "{} was dropped ".format(i.get_name())
 
 
-    def get_actions_taken(self):
-        return(self.actions_taken)
-
-
     def set_act_taken(self):
         self.actions_taken += 1
 
@@ -85,5 +80,7 @@ class Player_Data:
     # counts how many turns 
     def timer(self):
         print("You completed the game in:", self.actions_taken, "Turns.")
+
+
 
 
