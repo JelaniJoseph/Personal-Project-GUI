@@ -5,7 +5,8 @@
 
 from player import *
 from items import *
-from zone import *
+
+
 def project():
     locations = locale_data(backpack,Wisp_in_bottle,coat,coin)
     player = Player_Data(locations)
@@ -61,23 +62,39 @@ def game_loop(locations, player):
         player.loc_get().describe()
         player.update_score()
         player.loc_get().choose_action(player)
-        player.loc_get
+        player.set_location()
         locations[1].describe()
         locations[1].forest_path_actions(locations, player)
+        player.set_location()
+        player.update_score()
         locations[2].describe()
         locations[2].choose_action(player)
+        player.set_location()
+        player.update_score()
         locations[3].describe()
         locations[3].choose_action(player)
+        player.set_location()
+        player.update_score()
         locations[4].describe()
         locations[4].tundra_path_actions(locations, player)
+        player.set_location()
+        player.update_score()
         locations[5].describe()
         locations[5].choose_action(player)
+        player.set_location()
+        player.update_score()
         locations[6].describe()
         locations[6].choose_action(player)
+        player.set_location()
+        player.update_score()
         locations[7].describe()
         locations[7].tunnel_action_option(locations, player)
+        player.set_location()
+        player.update_score()
         locations[8].describe()
         locations[8].choose_action(player)
+        player.set_location()
+        player.update_score()
         locations[9].describe()
         locations[9].choose_action(player)
 
