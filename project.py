@@ -14,7 +14,7 @@ def project():
     playercustom(player)
     game_loop(locations, player)
     email_jel = str("jelani.joseph1@marist.edu")
-    end_screen(email_jel, actions_taken)
+    end_screen(email_jel, player)
 
 
 # Displays the title screen and Intro
