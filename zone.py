@@ -1,4 +1,5 @@
 from items import *
+
 class Zone:
     def __init__(self, name, description, after, consequence, item_list, actions):
         self.name = name
@@ -21,7 +22,7 @@ class Zone:
         for key, value in self.actions.items():
             print("[]", key.capitalize())
         action = input("\nAction >> ").lower()
-        if action in self.actions and action != 'location'  and action != 'score':
+        if action in self.actions and action != 'location'  and action != 'score' and action != 'inventory':
             print(self.actions[action])
             player.set_act_taken()
             self.visited = True
@@ -41,14 +42,19 @@ class Zone:
                     player.set_act_taken()
                 else:
                     decide = ("Try again, take or drop?")
-            if action == 'inventory':
-                player.inventory_show()
+                    self.choose_action(player)
+        elif action == 'inventory':
+            player.inventory_show()
+            player.set_act_taken()
+            self.choose_action(player)
         elif action == 'location':
             print(self.actions[action] + self.name)
             player.set_act_taken()
             self.choose_action(player)
         elif action == 'score':
             print(player.getname(), "score is: ", player.score_return())
+            player.set_act_taken()
+            self.choose_action(player)
         else:
             print("Inccorrect action, Try again")
             player.set_act_taken()
@@ -110,8 +116,11 @@ class Zone:
                     player.set_act_taken()
                 else:
                     decide = ("Try again, take or drop?")
+                    self.choose_action(player)
             if action == 'inventory':
                 player.inventory_show()
+                player.set_act_taken()
+                self.choose_action(player)
         elif action == 'location':
             print(self.actions[action] + self.name)
             player.set_act_taken()
@@ -119,6 +128,10 @@ class Zone:
         elif action == 'left':
             player.set_act_taken()
             locations[1].situational(action)
+        elif action == 'score':
+            print(player.getname(), "score is: ", player.score_return())
+            player.set_act_taken()
+            self.choose_action(player)
         else:
             print("\n Incorrect, Try Again >>")
             player.set_act_taken()
@@ -149,15 +162,20 @@ class Zone:
                     player.set_act_taken()
                 else:
                     decide = ("Try again, take or drop?")
+                    self.choose_action(player)
             if action == 'inventory':
                 player.inventory_show()
         elif action == 'location':
             print(self.actions[action] + self.name)
             player.set_act_taken()
             self.choose_action(player)
+        elif action == 'score':
+            print(player.getname(), "score is: ", player.score_return())
+            player.set_act_taken()
+            self.choose_action(player)
         elif action == 'fight':
             player.set_act_taken()
-            locations[4].situational(self, action)
+            locations[4].situational(action)
         else:
             action = input("\n Incorrect, Try Again >>").lower()
             player.set_act_taken()
@@ -188,8 +206,13 @@ class Zone:
                     player.set_act_taken()
                 else:
                     decide = ("Try again, take or drop?")
+                    self.choose_action(player)
             if action == 'inventory':
                 player.inventory_show()
+        elif action == 'score':
+            print(player.getname(), "score is: ", player.score_return())
+            player.set_act_taken()
+            self.choose_action(player)
         elif action == 'location':
             print(self.actions[action] + self.name)
             player.set_act_taken()
@@ -203,11 +226,13 @@ class Zone:
             self.tunnel_action_option(locations, player)
 
 
+
+
 def locale_data(backpack, Wisp_in_bottle, coat, coin):
     Forest = Zone(name="Forest",description= "You enter the Ominous Woods, there seems to be two paths",
-    after="as you continue you hear a sinister roar, it seems your choices will now have consequences.\n",
-    consequence= "text is within here", item_list= [backpack], 
-    actions= {"left": "You take the left-most path",
+        after="as you continue you hear a sinister roar, it seems your choices will now have consequences.\n",
+        consequence= "text is within here", item_list= [backpack], 
+        actions= {"left": "You take the left-most path",
         "right": "You take the right-side path", "search": "You found a backpack!",
         'location': "You are in: ", 'score': "Your score is: ", 'inventory': "your inventory opens!"})
 
@@ -219,7 +244,7 @@ def locale_data(backpack, Wisp_in_bottle, coat, coin):
         'inventory': "your inventory opens!"})
 
     Cabin = Zone("Cabin", "You squint and can barely make out the figure of a log cabin", 
-    "You prepare yourself, and push forward!\n", "text", [coat, Wisp_in_bottle],
+    "You prepare yourself, and push forward!\n", "text", [Wisp_in_bottle, coat],
         {"search": "You found a coat, and a strange flask!",
         "rest": " You decide to rest a while...", "find an exit": "You look for a way out of the cabin",
         'location': "You are in: ", 'score': "Your score is: ",'inventory': "your inventory opens!"})
@@ -265,6 +290,5 @@ def locale_data(backpack, Wisp_in_bottle, coat, coin):
     Hospital = Zone("Hospital", "strangely feels more real than what just happened...", "Everything is finally over",
         "text", [None], {"waken": "You open your eyes and realize that you are now in a hospital",
         'location': "You are in: ", 'score': "Your score is: ", 'inventory': "your inventory opens!"})
-
     locations = [Forest, Forest_Path, Cabin, Tundra, Tundra_Path, Ocean, Cave, Tunnel, House, Hospital]
     return(locations)
