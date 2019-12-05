@@ -164,7 +164,7 @@ class Zone:
             self.tundra_path_actions(locations, player)
 
 
-    def tunnel_actions(self, locations, player):
+    def tunnel_action_option(self, locations, player):
         for key, value in self.actions.items():
             print("[]", key.capitalize())
         action = input("\nAction >> ").lower()
@@ -195,12 +195,13 @@ class Zone:
             player.set_act_taken()
             self.choose_action(player)
         elif action == 'left':
-            locations[7].situational(self, action)
             player.set_act_taken()
+            locations[7].situational(self, action)
         else:
             action = input("\n Incorrect, Try Again >>").lower()
             player.set_act_taken()
-            self.tunnel_actions(locations, player)
+            self.tunnel_action_option(locations, player)
+
 
 def locale_data(backpack, Wisp_in_bottle, coat, coin):
     Forest = Zone(name="Forest",description= "You enter the Ominous Woods, there seems to be two paths",
