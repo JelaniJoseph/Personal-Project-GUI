@@ -6,7 +6,6 @@ class Player_Data:
         self.score = 0
         self.location = location
         self.inventory = []
-        self.actions = {'Take': "Item added to your inventory!", 'drop': "you left the item behind!"}
         self.actions_taken = 0
         self.index = 0
         self.current_locale = location[0]
@@ -51,33 +50,36 @@ class Player_Data:
         locale_items = self.current_locale.get_item_list()
         for item in locale_items:
             self.inventory.append(item)
-            print('{} was added to the inventory!'.format(item.get_name()))
+            print('{} was added to the inventory!'.format(item.getname()))
+        return(item)
 
 
     # Shows whats in the inventory
     def inventory_show(self):
         for article in self.inventory:
-            print(article.get_name())
+            print(article.getname())
 
-    def test_inventory(self, user_input):
-        for article in self.inventory:
-            print(article.get_name())
-            if user_input == article.getname():
-                print(article.item_display())
-                return(article.item_use())
-
-    # allows player to specify which object to use, and subtracts 1 from the item use
+# Problem is 
     def inventory_use(self):
-        inventory_action = input("select which item you would like to use: ").lower()
-        self.test_inventory(inventory_action)
-
+        ans = False
+        i = 0
+        inventory_action = '???'
+       # for article in self.inventory:
+         #  print(article.getname())
+        inventory_action = input("input item you would like to use: ").lower()
+        while((ans == False) and ( i < len(self.inventory)) ):
+            if (inventory_action == self.inventory[i].getname()):
+                ans = True
+                print(self.inventory[i].itemdisplay())
+            else:
+                 i+= 1
 
 
     # drop an item, removes it from list
     def drop_item(self):
         item_list = self.current_locale.get_item_list()
         for i in item_list:
-            return "{} was dropped ".format(i.get_name())
+            return "{} was dropped ".format(i.getname())
 
 
     # adds one to the player counter 
