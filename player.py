@@ -71,6 +71,7 @@ class Player_Data:
             if (inventory_action == self.inventory[i].getname()):
                 ans = True
                 print(self.inventory[i].itemdisplay())
+                self.inventory[i].item_situational()
             else:
                  i+= 1
 
