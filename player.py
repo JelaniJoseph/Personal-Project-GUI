@@ -56,14 +56,21 @@ class Player_Data:
 
     # Shows whats in the inventory
     def inventory_show(self):
-        for i in self.inventory:
-            print(i.get_name())
+        for article in self.inventory:
+            print(article.get_name())
 
+    def test_inventory(self, user_input):
+        for article in self.inventory:
+            print(article.get_name())
+            if user_input == article.getname():
+                print(article.item_display())
+                return(article.item_use())
 
-    # use an item from inventory list
-    def use_item(self, item):
-        if item in self.inventory:
-            return(item)
+    # allows player to specify which object to use, and subtracts 1 from the item use
+    def inventory_use(self):
+        inventory_action = input("select which item you would like to use: ").lower()
+        self.test_inventory(inventory_action)
+
 
 
     # drop an item, removes it from list
@@ -73,6 +80,7 @@ class Player_Data:
             return "{} was dropped ".format(i.get_name())
 
 
+    # adds one to the player counter 
     def set_act_taken(self):
         self.actions_taken += 1
 
@@ -80,6 +88,7 @@ class Player_Data:
     # counts how many turns 
     def timer(self):
         print("You completed the game in:", self.actions_taken, "Turns.")
+
 
 
 
