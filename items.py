@@ -8,14 +8,22 @@ class Items:
     def get_name(self):
         return(self.name)
 
+    def item_use(self):
+        self.use -= 1
+        return(self.use)
+
+
+    def item_display(self):
+        return(self.description)
 
     def __str__(self):
         return '{} {} {}'.format(self.name, self.description, self.use)
 
-Wisp_in_bottle = Items(name = 'A Wisp in a Bottle', description= 'Will lead you to vicotry!', use= 1)
 
-backpack = Items('Red Backpack', 'Looks spacious', 10)
+Wisp_in_bottle = Items('trapped_wisp', 'Will lead you to vicotry!', 1)
 
-coat = Items('Coat', 'Looks nice and warm', 10)
+backpack = Items('red_backpack', 'Looks spacious', 10)
 
-coin = Items('A coin with a skull on it', 'Just looking at it makes you feel uneasy', 1)
+coat = Items('coat', 'Looks nice and warm', 10)
+
+coin = Items('coin', 'A coin with a skull on it, Just looking at it makes you feel uneasy', 1)
