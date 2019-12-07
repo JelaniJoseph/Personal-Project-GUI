@@ -34,7 +34,7 @@ class Player_Data:
         return(self.score)
 
 
-  # make it show current location
+    # make it show current location
     def set_location(self):
         self.index += 1
         self.current_locale = self.location[self.index]
@@ -54,9 +54,6 @@ class Player_Data:
         return(item)
 
 
-    # Shows whats in the inventory
-
-
 # shows whats in inventory, asks player to input item for use, if use is 0 then removes from inventory
     def inventory_use(self):
         for article in self.inventory:
@@ -64,8 +61,6 @@ class Player_Data:
         ans = False
         i = 0
         inventory_action = '???'
-       # for article in self.inventory:
-         #  print(article.getname())
         inventory_action = input("input item you would like to use: ").lower()
         while((ans == False) and ( i < len(self.inventory)) ):
             if (inventory_action == self.inventory[i].getname()):
@@ -93,8 +88,4 @@ class Player_Data:
     # counts how many turns 
     def timer(self):
         print("You completed the game in:", self.actions_taken, "Turns.")
-
-
-
-
 
