@@ -44,7 +44,6 @@ class Zone:
                     decide = ("Try again, take or drop?")
                     self.choose_action(player)
         elif action == 'inventory':
-            player.inventory_show()
             player.inventory_use()
             player.set_act_taken()
             self.choose_action(player)
@@ -95,6 +94,11 @@ class Zone:
         print(self.consequence)
         print("You Died...\n")
 
+    def win_condition(self, action):
+        print(self.actions[action])
+        print(self.consequence)
+        print("You Won!\n")
+
 
     def forest_path_actions(self, locations, player):
         for key, value in self.actions.items():
@@ -124,7 +128,6 @@ class Zone:
                     decide = ("Try again, take or drop?")
                     self.choose_action(player)
         elif action == 'inventory':
-            player.inventory_show()
             player.inventory_use()
             player.set_act_taken()
             self.choose_action(player)
@@ -153,9 +156,13 @@ class Zone:
             print("[]", key.capitalize())
         action = input("\nAction >> ").lower()
         if coat not in player.inventory:
-            print("Without a coat you get extreme frostbite, and begin to crack")
             locations[4].situational(action)
-        elif action in self.actions and action != 'location' and action != 'score' and action != 'inventory' and action !='fight':
+            return(False)
+        if Wisp_in_bottle not in player.inventory:
+            print("A bright light flashes!\n")
+            locations[9].win_condition(action)
+            return(False)
+        if action in self.actions and action != 'location' and action != 'score' and action != 'inventory' and action !='fight':
             print(self.actions[action])
             player.set_act_taken()
             self.visited = True
@@ -180,7 +187,6 @@ class Zone:
                     decide = ("Try again, take or drop?")
                     self.choose_action(player)
         elif action == 'inventory':
-            player.inventory_show()
             player.inventory_use()
             player.set_act_taken()
             self.choose_action(player)
@@ -234,7 +240,6 @@ class Zone:
                     decide = ("Try again, take or drop?")
                     self.choose_action(player)
         elif action == 'inventory':
-            player.inventory_show()
             player.inventory_use()
             player.set_act_taken()
             self.choose_action(player)
@@ -283,11 +288,9 @@ def locale_data(backpack, Wisp_in_bottle, coat, coin):
         'location': "You are in: ", 'score': "Your score is: ",'inventory': "your inventory opens!"})
 
     Tundra = Zone("Tundra", "The cold chips away at your very being",
-        "After some time you reach an icy lake\n", "text", [None],
+        "After some time you reach an icy lake\n", "the cold digs into you and you cant feel anything", [None],
         {"walk": "You try to push through the blizzard", 
-        "inventory": "you use the wisp in a bottle!", "map": 
-        "You open the map and see the pathway you must follow",
-        "backward": "it's too cold, you go back in the cabin",
+        "map": "You open the map and see the pathway you must follow",
         'location': "You are in: ", 'score': "Your score is: ", 'inventory': "your inventory opens!"})
 
     Tundra_Path = Zone("Tundra", "as you stare ath the ocean, you hear something dangerous approaching you"
@@ -321,7 +324,8 @@ def locale_data(backpack, Wisp_in_bottle, coat, coin):
         'location': "You are in: ", 'score': "Your score is: ", 'inventory': "your inventory opens!"})
 
     Hospital = Zone("Hospital", "strangely feels more real than what just happened...", "Everything is finally over",
-        "text", [None], {"waken": "You open your eyes and realize that you are now in a hospital",
+        "Suddenly you awake in the hospital, it seems you survived.",
+         [None], {"waken": "You open your eyes and realize that you are now in a hospital",
         'location': "You are in: ", 'score': "Your score is: ", 'inventory': "your inventory opens!"})
     locations = [Forest, Forest_Path, Cabin, Tundra, Tundra_Path, Ocean, Cave, Tunnel, House, Hospital]
     return(locations)
