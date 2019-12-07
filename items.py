@@ -5,16 +5,19 @@ class Items:
         self.description = description
         self.use = use
 
-    def get_name(self):
+
+    def getname(self):
         return(self.name)
+
 
     def item_use(self):
         self.use -= 1
         return(self.use)
 
 
-    def item_display(self):
+    def itemdisplay(self):
         return(self.description)
+
 
     def __str__(self):
         return '{} {} {}'.format(self.name, self.description, self.use)
