@@ -55,12 +55,12 @@ class Player_Data:
 
 
     # Shows whats in the inventory
-    def inventory_show(self):
+
+
+# shows whats in inventory, asks player to input item for use, if use is 0 then removes from inventory
+    def inventory_use(self):
         for article in self.inventory:
             print(article.getname())
-
-# Problem is 
-    def inventory_use(self):
         ans = False
         i = 0
         inventory_action = '???'
@@ -71,7 +71,9 @@ class Player_Data:
             if (inventory_action == self.inventory[i].getname()):
                 ans = True
                 print(self.inventory[i].itemdisplay())
-                self.inventory[i].item_situational()
+                self.inventory[i].item_use()
+                if self.inventory[i].use == 0:
+                    self.inventory.remove(self.inventory[i])
             else:
                  i+= 1
 
