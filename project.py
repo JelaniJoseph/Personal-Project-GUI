@@ -40,19 +40,21 @@ def title():
 def playercustom(player):
     player.setname()
 
+
 def replay(player, locations, conditional):
     print("The game is over, but would you like to replay?")
-    replay_choice = input('y/n')
+    replay_choice = input('y/n: ')
     if replay_choice =='y':
-        reset_locations = locale_data(backpack,Wisp_in_bottle,coat,coin)
-        reset_player = Player_Data(locations)
-        game_loop(reset_locations, True, reset_player)
+        locations = locale_data(backpack,Wisp_in_bottle,coat,coin)
+        player = Player_Data(locations)
+        game_loop(locations, True, player)
     elif replay_choice =='n':
         print("Thanks for playing!")
         quit()
     else:
         print("invalid choice")
         replay(player, locations, conditional)
+
 
 # Main game loop, prints the situation, and based on input locations vary
 # Commands available for user are listed before they are asked for input.
@@ -65,7 +67,7 @@ def game_loop(locations, conditional, player):
         locations[1].describe()
         conditional = locations[1].forest_path_actions(locations, player)
         if conditional == False:
-            replay(locations, player, True)
+            replay(locations, True, player)
         player.set_location()
         player.update_score()
         locations[2].describe()
@@ -79,7 +81,7 @@ def game_loop(locations, conditional, player):
         locations[4].describe()
         conditional = locations[4].tundra_path_actions(locations, player)
         if conditional == False:
-            replay(locations, player, True)
+            replay(locations, True, player)
         player.set_location()
         player.update_score()
         locations[5].describe()
@@ -93,7 +95,7 @@ def game_loop(locations, conditional, player):
         locations[7].describe()
         conditional = locations[7].tunnel_action_option(locations, player)
         if conditional == False:
-            replay(locations, player, True)
+            replay(locations, True, player)
         player.set_location()
         player.update_score()
         locations[8].describe()
@@ -114,4 +116,3 @@ def end_screen(player, locations, conditional):
     replay(player, locations, conditional)
  
 project()
-
