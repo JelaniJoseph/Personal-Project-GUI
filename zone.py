@@ -95,7 +95,6 @@ class Zone:
         print("You Died...\n")
 
     def win_condition(self, action):
-        print(self.actions[action])
         print(self.consequence)
         print("You Won!\n")
 
