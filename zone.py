@@ -61,43 +61,45 @@ class Zone:
             self.choose_action(player)
 
 
-    # function should add item to list within the class
+# function should add item to list within the class
     def add_item(self, item_list):
         item_list.append(Items)
 
 
-    # should print the item in that locale list
+# should print the item in that locale list
     def get_item_list(self):
         return(self.item_list)
 
 
-    # checks to see if area was visited or not
+# checks to see if area was visited or not
     def area_visited(self):
         if self.visited == True:
             print("Playername has visited: ", self.name)
 
 
-    # checks to see if area was searched or not
+# checks to see if area was searched or not
     def was_searched(self):
         if self.searched == True:
             print("You have searched this locale")
 
 
-    # Prints the after description of the locale 
+# Prints the after description of the locale
     def after_desc(self):
         print(self.after)
 
 
-    # Used to end the game if key is typed, prints value of key, consequence of locale, and then ends the game.
-    def situational(self, action):
+# Used to end the game if key is typed, prints value of key, consequence of locale, and then ends the game.
+    def situational(self, player, action):
         print(self.actions[action])
         print(self.consequence)
         print("You Died...\n")
+        player.timer()
 
-    def win_condition(self, action):
+
+    def win_condition(self, player, action):
         print(self.consequence)
         print("You Won!\n")
-
+        player.timer()
 
     def forest_path_actions(self, locations, player):
         for key, value in self.actions.items():
@@ -137,7 +139,7 @@ class Zone:
             return(True)
         elif action == 'left':
             player.set_act_taken()
-            locations[1].situational(action)
+            locations[1].situational(player, action)
             return(False)
         elif action == 'score':
             print(player.getname(), "score is: ", player.score_return())
@@ -155,11 +157,11 @@ class Zone:
             print("[]", key.capitalize())
         action = input("\nAction >> ").lower()
         if coat not in player.inventory:
-            locations[4].situational(action)
+            locations[4].situational(player, action)
             return(False)
         if Wisp_in_bottle not in player.inventory:
             print("A bright light flashes!\n")
-            locations[9].win_condition(action)
+            locations[9].win_condition(player, action)
             return(False)
         if action in self.actions and action != 'location' and action != 'score' and action != 'inventory' and action !='fight':
             print(self.actions[action])
@@ -202,7 +204,7 @@ class Zone:
             return(True)
         elif action == 'fight':
             player.set_act_taken()
-            locations[4].situational(action)
+            locations[4].situational(player, action)
             return(False)
         else:
             action = input("\n Incorrect, Try Again >>").lower()
@@ -255,7 +257,7 @@ class Zone:
             return(True)
         elif action == 'left':
             player.set_act_taken()
-            locations[7].situational(action)
+            locations[7].situational(player, action)
             return(False)
         else:
             action = input("\n Incorrect, Try Again >>").lower()
