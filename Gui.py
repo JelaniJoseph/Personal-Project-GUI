@@ -41,6 +41,23 @@ class BioSagaApp(tk.Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
+    def left_value(self, value_list):
+            if value_list[0]== 'left':
+                player.set_act_taken()
+                value_list[2].configure(text= value_list[6][value_list[0]])
+                player.loc_get().after_desc(value_list[3])
+                value_list[4].destroy()
+                value_list[1].place(relx= 0.51, rely= 0.6, anchor='center')
+
+
+    def right_value(self, value_list):
+        if value_list[0] == 'right':
+            player.set_act_taken()
+            value_list[2].configure(text= value_list[6][value_list[0]])
+            player.loc_get().after_desc(value_list[3])
+            value_list[4].destroy()
+            value_list[1].place(relx= 0.51, rely= 0.6, anchor='center')
+
 
 def getvalue(combobox, actions, lbl, lbl2, btn, controller):
     value = combobox.get()
@@ -53,7 +70,7 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
         lbl.config(text= actions[value])
         
 
-    if value == 'location':
+    elif value == 'location':
         player.set_act_taken()
         lbl.config(text= actions[value] + player.loc_get().zonename())
         lbl2.configure(master=None, text="")
@@ -92,28 +109,7 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
     return(value_list)
 
 
-    def left_value(self, value_list):
-        if value_list[0]== 'left':
-            player.set_act_taken()
-
-            value_list[2].configure(text= value_list[6][value_list[0]])
-            player.loc_get().after_desc(value_list[3])
-
-            value_list[4].destroy()
-
-            value_list[1].place(relx= 0.51, rely= 0.6, anchor='center')
-
-
-    def right_value(self, value_list):
-        if value_list[0] == 'right':
-            player.set_act_taken()
-
-            value_list[2].configure(text= value_list[6][value_list[0]])
-            player.loc_get().after_desc(value_list[3])
-
-            value_list[4].destroy()
-
-            value_list[1].place(relx= 0.51, rely= 0.6, anchor='center')
+   
  
         
 class StartPage(tk.Frame):
@@ -156,7 +152,7 @@ class Forest(tk.Frame):
 
         lbl = ttk.Label(self, text="", font=LARGE_FONT)
         lbl2=ttk.Label(self, text="", font= LARGE_FONT)
-        
+
         btn= ttk.Button(self, text="Continue!", 
         command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller),
         BioSagaApp.left_value(value_list), BioSagaApp.right_value(value_list)])
