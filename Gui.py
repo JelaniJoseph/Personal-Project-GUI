@@ -8,41 +8,37 @@ from project import end_screen
 import tkinter as tk
 from tkinter import ttk
 
-
+#Instantiation of possible locations, player options and the introduction screen.
 locations = locale_data(backpack,Wisp_in_bottle,coat,coin)
 player = Player_Data(locations)
 title_screen = title()
-
+#Font for styling text 
 LARGE_FONT= ("Verdana", 12)
-
+#Is used to create the frame for the user to interact with
 class BioSagaApp(tk.Tk):
-
     def __init__(self, *args, **kwargs):
-        
         tk.Tk.__init__(self, *args, **kwargs)
-
         tk.Tk.wm_title(self, "Bio-Saga")
-
+        #Main function that creates the GUI frame
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
-
         self.frames = {}
-
-        for F in (StartPage, CharCreation, Forest, Forest_Path, loosescreen):
+        #For loop that iterates through all possible pages for user to see and shows them
+        for F in (StartPage, CharCreation, Forest, Forest_Path, loosescreen,
+        Cabin, Tundra, Tundra_Path, Ocean, Cave, Tunnel, House, Hospital):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
-
         self.show_frame(StartPage)
 
+    # Displays the frames to the user
     def show_frame(self, cont):
-
         frame = self.frames[cont]
         frame.tkraise()
 
-
+#Function handles all actions of what user selects in combobox using if statements 
 def getvalue(combobox, actions, lbl, lbl2, btn, controller):
     value = combobox.get()
     
@@ -75,7 +71,6 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
             btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
 
-
         elif value == 'left' and player.loc_get() != locations[1]:
             player.set_act_taken()
             lbl.configure(text= actions[value])
@@ -87,12 +82,11 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
             player.set_act_taken()
             lbl.configure(text=actions[value])
             locations[1].situational(player, lbl2)
+            btn.destroy()
             next_button = ttk.Button(master=None, text="Next!",
             command= lambda: [controller.show_frame(loosescreen),
             next_button.destroy(), player.set_location(), player.update_score()])
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-            # loosescreen.lbl.configure(text= player.timer(lbl2))
-            
 
         elif value == 'score':
             player.set_act_taken()
@@ -114,7 +108,7 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')])
             no_btn.place(relx=0.6, rely=0.5, anchor= 'center')
 
-        
+# First page the user sees displays title and prompts user to continue to next page
 class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -125,7 +119,7 @@ class StartPage(tk.Frame):
         btn = ttk.Button(self, text="Begin!", command= lambda: controller.show_frame(CharCreation))
         btn.pack()
 
-
+# Allows user to customize their character by naming them
 class CharCreation(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
@@ -138,8 +132,8 @@ class CharCreation(tk.Frame):
         btn = ttk.Button(self, text="Start", command= lambda: controller.show_frame(Forest))
         btn.pack()
         
-
-
+# first location in the game all below create a combobox list based on dictionary actions which are defined
+# within each separate location then based on user selection labels are configured.
 class Forest(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
@@ -189,6 +183,198 @@ class Forest_Path(tk.Frame):
         lbl2.pack()
 
 
+class Cabin(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = tk.Label(self, text="Cabin\n =====================\n", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        label = tk.Label(self, text= player.loc_get().description, font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        actions = locations[2].actions
+        self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
+        self.box.bind("<<ComboboxSelected>>")
+        self.box.pack(pady=10,padx=10)
+
+        btn= ttk.Button(self, text="Continue!",
+        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
+
+        lbl = ttk.Label(self, text="", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+        
+        btn.pack(pady=10, padx=10)
+        lbl.pack()
+        lbl2.pack()
+
+
+class Tundra(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = tk.Label(self, text="Tundra\n =====================\n", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        label = tk.Label(self, text= player.loc_get().description, font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        actions = locations[3].actions
+        self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
+        self.box.bind("<<ComboboxSelected>>")
+        self.box.pack(pady=10,padx=10)
+
+        btn= ttk.Button(self, text="Continue!",
+        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
+
+        lbl = ttk.Label(self, text="", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+        
+        btn.pack(pady=10, padx=10)
+        lbl.pack()
+        lbl2.pack()
+
+
+class Tundra_Path(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = tk.Label(self, text="Tundra Pathway\n =====================\n", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        label = tk.Label(self, text= player.loc_get().description, font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        actions = locations[4].actions
+        self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
+        self.box.bind("<<ComboboxSelected>>")
+        self.box.pack(pady=10,padx=10)
+
+        btn= ttk.Button(self, text="Continue!",
+        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
+
+        lbl = ttk.Label(self, text="", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+        
+        btn.pack(pady=10, padx=10)
+        lbl.pack()
+        lbl2.pack()
+
+
+class Ocean(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = tk.Label(self, text="Ocean\n =====================\n", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        label = tk.Label(self, text= player.loc_get().description, font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        actions = locations[5].actions
+        self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
+        self.box.bind("<<ComboboxSelected>>")
+        self.box.pack(pady=10,padx=10)
+
+        btn= ttk.Button(self, text="Continue!",
+        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
+
+        lbl = ttk.Label(self, text="", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+        
+        btn.pack(pady=10, padx=10)
+        lbl.pack()
+        lbl2.pack()
+    
+
+class Cave(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = tk.Label(self, text="Cave\n =====================\n", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        label = tk.Label(self, text= player.loc_get().description, font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        actions = locations[6].actions
+        self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
+        self.box.bind("<<ComboboxSelected>>")
+        self.box.pack(pady=10,padx=10)
+
+        btn= ttk.Button(self, text="Continue!",
+        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
+
+        lbl = ttk.Label(self, text="", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+        
+        btn.pack(pady=10, padx=10)
+        lbl.pack()
+        lbl2.pack()
+
+
+class Tunnel(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = tk.Label(self, text="Tunnel\n =====================\n", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        label = tk.Label(self, text= player.loc_get().description, font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        actions = locations[7].actions
+        self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
+        self.box.bind("<<ComboboxSelected>>")
+        self.box.pack(pady=10,padx=10)
+
+        btn= ttk.Button(self, text="Continue!",
+        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
+
+        lbl = ttk.Label(self, text="", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+        
+        btn.pack(pady=10, padx=10)
+        lbl.pack()
+        lbl2.pack()
+
+
+class House(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = tk.Label(self, text="Forest Pathway\n =====================\n", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        label = tk.Label(self, text= player.loc_get().description, font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        actions = locations[8].actions
+        self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
+        self.box.bind("<<ComboboxSelected>>")
+        self.box.pack(pady=10,padx=10)
+
+        btn= ttk.Button(self, text="Continue!",
+        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
+
+        lbl = ttk.Label(self, text="", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+        
+        btn.pack(pady=10, padx=10)
+        lbl.pack()
+        lbl2.pack()
+
+
+class Hospital(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        label = tk.Label(self, text="Forest Pathway\n =====================\n", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        label = tk.Label(self, text= player.loc_get().description, font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        actions = locations[9].actions
+        self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
+        self.box.bind("<<ComboboxSelected>>")
+        self.box.pack(pady=10,padx=10)
+
+        btn= ttk.Button(self, text="Continue!",
+        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
+
+        lbl = ttk.Label(self, text="", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+        
+        btn.pack(pady=10, padx=10)
+        lbl.pack()
+        lbl2.pack()
+
+
 class loosescreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
@@ -198,9 +384,14 @@ class loosescreen(tk.Frame):
         lbl = ttk.Label(self, text="The game is over, but would you like to replay?", font=LARGE_FONT)
         lbl2=ttk.Label(self, text="", font= LARGE_FONT)
 
-        loose_btn = ttk.Button(self, text= "Yes", command= lambda: replay(player, locations, lbl2))
+        loose_btn = ttk.Button(self, text= "Yes", command= lambda: [replay(player, locations),
+        controller.show_frame(StartPage), ])
+        quit_btn = ttk.Button(self, text="No", command= lambda: quit())
         lbl.pack()
         lbl2.pack()
+        loose_btn.pack()
+        quit_btn.pack()
+
 
 app = BioSagaApp()
 app.geometry("800x600")
