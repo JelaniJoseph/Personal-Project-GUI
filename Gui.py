@@ -30,7 +30,7 @@ class BioSagaApp(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, CharCreation, Forest, Forest_Path):
+        for F in (StartPage, CharCreation, Forest, Forest_Path, loosescreen):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -75,12 +75,24 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
             btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
 
-        elif value == 'left' and value != locations[1]:
+
+        elif value == 'left' and player.loc_get() != locations[1]:
             player.set_act_taken()
             lbl.configure(text= actions[value])
             player.loc_get().after_desc(lbl2)
             btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
+        elif  value == 'left' and player.loc_get() == locations[1]:
+            player.set_act_taken()
+            lbl.configure(text=actions[value])
+            locations[1].situational(player, lbl2)
+            next_button = ttk.Button(master=None, text="Next!",
+            command= lambda: [controller.show_frame(loosescreen),
+            next_button.destroy(), player.set_location(), player.update_score()])
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+            # loosescreen.lbl.configure(text= player.timer(lbl2))
+            
 
         elif value == 'score':
             player.set_act_taken()
@@ -153,59 +165,6 @@ class Forest(tk.Frame):
         lbl2.pack()
 
 
-# def getvalue_fpath(combobox, actions, lbl, lbl2, btn, controller):
-#     value = combobox.get()
-#     if value in actions:
-#         player.set_act_taken()
-#         lbl.config(text= actions[value])
-#         next_button = ttk.Button(master=None, text="Next!",
-#             command= lambda: [controller.show_frame(Forest_Path),
-#             next_button.destroy(), player.set_location(), player.update_score()])
-#     if value == 'location':
-#         player.set_act_taken()
-#         lbl.config(text= actions[value] + player.loc_get().zonename())
-#         lbl2.configure(master=None, text="")
-#     elif value== 'left':
-#         player.set_act_taken()
-#         lbl.configure(text= actions[value])
-#         lbl2.configure(text= player.loc_get().consequence)
-#         btn.destroy()
-#         next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-#     elif value== 'right':
-#         player.set_act_taken()
-#         lbl.configure(text= actions[value])
-#         player.loc_get().after_desc(lbl2)
-#         btn.destroy()
-#         next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-#     elif value == 'inventory':
-#         player.set_act_taken()
-#         inv_list = tk.Listbox(master=None, selectmode= 'single',)
-#         inv_list.place(relx=0.51, rely=0.5, anchor='center')
-#         lbl.configure(text= player.inventory_show(lbl, inv_list))
-#         use= ttk.Button(master=None, text="use", command= lambda: [player.inventory_use(lbl, inv_list),
-#         use.destroy(), inv_list.destroy(), btn.destroy()])
-#         use.place(relx = 0.48, rely= 0.7, anchor='center')
-#         next_button.place(relx=0.51, rely=0.6, anchor='center')
-#     elif value == 'score':
-#         player.set_act_taken()
-#         lbl.configure(text= actions[value] + str(player.score_return()))
-#         lbl2.configure(master=None, text="")
-#     elif value == 'search':
-#         player.set_act_taken()
-#         lbl.configure(text= actions[value])
-#         lbl2.configure(master=None, text="would you like to pick up the item?")
-#         yes_btn = ttk.Button(master=None, text="Yes", command= lambda:[lbl2.configure(text=""), 
-#         player.take(lbl), yes_btn.destroy(), no_btn.destroy(), player.loc_get().after_desc(lbl2),
-#             btn.destroy(),
-#             next_button.place(relx= 0.51, rely= 0.6, anchor='center')])
-#         yes_btn.place(relx=0.4, rely=0.5, anchor= 'center')
-#         no_btn = ttk.Button(master=None, text="No", 
-#         command= lambda:[player.drop_item(lbl), yes_btn.destroy(), no_btn.destroy(),
-#         player.loc_get().after_desc(lbl2), btn.destroy(),
-#         next_button.place(relx= 0.51, rely= 0.6, anchor='center')])
-#         no_btn.place(relx=0.6, rely=0.5, anchor= 'center')
-
-
 class Forest_Path(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
@@ -213,23 +172,35 @@ class Forest_Path(tk.Frame):
         label.pack(pady=10, padx=10)
         label = tk.Label(self, text= player.loc_get().description, font=LARGE_FONT)
         label.pack(pady=10,padx=10)
+
         actions = locations[1].actions
         self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
         self.box.bind("<<ComboboxSelected>>")
         self.box.pack(pady=10,padx=10)
+
+        btn= ttk.Button(self, text="Continue!",
+        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
+
         lbl = ttk.Label(self, text="", font=LARGE_FONT)
         lbl2=ttk.Label(self, text="", font= LARGE_FONT)
-        btn= ttk.Button(self, text="Continue!",
-        command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)
-        ])
-        btn.pack()
+        
+        btn.pack(pady=10, padx=10)
         lbl.pack()
         lbl2.pack()
+
 
 class loosescreen(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
+        self.label = tk.Label(self, text="Game Over\n =====================\n", font=LARGE_FONT)
+        self.label.pack(pady=10, padx=10)
 
+        lbl = ttk.Label(self, text="The game is over, but would you like to replay?", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+
+        loose_btn = ttk.Button(self, text= "Yes", command= lambda: replay(player, locations, lbl2))
+        lbl.pack()
+        lbl2.pack()
 
 app = BioSagaApp()
 app.geometry("800x600")

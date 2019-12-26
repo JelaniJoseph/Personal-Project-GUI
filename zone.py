@@ -95,13 +95,13 @@ class Zone:
 # Used to end the game if key is typed, prints value of key, consequence of locale, and then ends the game.
     def situational(self, player, lbl2):
         lbl2.configure(text= self.consequence)
-        player.timer()
+        player.timer(lbl2)
 
 
-    def win_condition(self, player, action, username):
+    def win_condition(self, player, action, username, lbl2):
         print(self.consequence)
         print("You Won!\n")
-        player.timer()
+        player.timer(lbl2)
 
     def forest_path_actions(self, locations, player, lbl2, username):
         for key, value in self.actions.items():

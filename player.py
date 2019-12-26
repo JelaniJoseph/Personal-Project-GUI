@@ -92,5 +92,5 @@ class Player_Data:
 
 
 # counts how many turns
-    def timer(self):
-        print("You completed the game in:", self.actions_taken, "Turns.")
+    def timer(self, lbl):
+        lbl.configure(text= "You completed the game in:" + str(self.actions_taken) + "Turns.")

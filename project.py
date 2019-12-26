@@ -41,17 +41,13 @@ def playercustom(player):
     player.setname()
 
 
-def replay(player, locations, conditional, lbl2):
-    print("The game is over, but would you like to replay?")
-    replay_choice = input('y/n: ')
-    if replay_choice =='y':
-        locations = locale_data(backpack,Wisp_in_bottle,coat,coin)
-        player = Player_Data(locations)
-        BioSagaApp.show_frame(StartPage)
-    elif replay_choice =='n':
-        lbl2.configure(text= "Thanks for playing!")
-        quit()
-        replay(player, locations, conditional)
+def replay(player, locations):
+    locations = locale_data(backpack,Wisp_in_bottle,coat,coin)
+    player = Player_Data(locations)
+    # elif replay_choice =='n':
+    #     lbl2.configure(text= "Thanks for playing!")
+    #     quit()
+    #     replay(player, locations, conditional)
 
 
 # Main game loop, prints the situation, and based on input locations vary
