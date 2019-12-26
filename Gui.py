@@ -42,23 +42,6 @@ class BioSagaApp(tk.Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
-    # def left_value(self, value_list):
-    #         if value_list[0]== 'left':
-    #             player.set_act_taken()
-    #             value_list[2].configure(text= value_list[6][value_list[0]])
-    #             player.loc_get().after_desc(value_list[3])
-    #             value_list[4].destroy()
-    #             value_list[1].place(relx= 0.51, rely= 0.6, anchor='center')
-
-
-    # def right_value(self, value_list):
-    #     if value_list[0] == 'right':
-    #         player.set_act_taken()
-    #         value_list[2].configure(text= value_list[6][value_list[0]])
-    #         player.loc_get().after_desc(value_list[3])
-    #         value_list[4].destroy()
-    #         value_list[1].place(relx= 0.51, rely= 0.6, anchor='center')
-
 
 def getvalue(combobox, actions, lbl, lbl2, btn, controller):
     value = combobox.get()
@@ -71,7 +54,6 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
         next_button.destroy(), player.set_location(), player.update_score()])
 
         if value == 'location':
-            print(value)
             player.set_act_taken()
             lbl.config(text=actions[value] + player.loc_get().zonename())
             lbl2.configure(master=None, text="")
@@ -85,6 +67,20 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
             use.destroy(), inv_list.destroy(), btn.destroy()])
             use.place(relx = 0.48, rely= 0.7, anchor='center')
             next_button.place(relx=0.51, rely=0.6, anchor='center')
+        
+        elif value == 'right':
+            player.set_act_taken()
+            lbl.configure(text= actions[value])
+            player.loc_get().after_desc(lbl2)
+            btn.destroy()
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
+        elif value == 'left' and value != locations[1]:
+            player.set_act_taken()
+            lbl.configure(text= actions[value])
+            player.loc_get().after_desc(lbl2)
+            btn.destroy()
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
 
         elif value == 'score':
             player.set_act_taken()
@@ -106,12 +102,6 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')])
             no_btn.place(relx=0.6, rely=0.5, anchor= 'center')
 
-    value_list = [value, next_button, lbl, lbl2, btn, controller, actions]
-    return(value_list)
-
-
-   
- 
         
 class StartPage(tk.Frame):
 
