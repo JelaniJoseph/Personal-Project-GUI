@@ -1,2 +1,2 @@
 # CMP120-Project
-in collaboration with Daniel Mikhalchuk
+Improving a litle bit day by day
