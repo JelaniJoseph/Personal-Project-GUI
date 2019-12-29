@@ -25,14 +25,24 @@ class BioSagaApp(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
+        self.page_counter = 0
         #For loop that iterates through all possible pages for user to see and shows them
-        for F in (StartPage, CharCreation, Forest, Forest_Path, loosescreen,
-        Cabin, Tundra, Tundra_Path, Ocean, Cave, Tunnel, House, Hospital):
+        self.user_pages= [StartPage, CharCreation, Forest, Forest_Path, loosescreen,
+        Cabin, Tundra, Tundra_Path, Ocean, Cave, Tunnel, House, Hospital]
+        for F in (self.user_pages):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
-        self.show_frame(StartPage)
+        self.show_frame(self.user_pages[0])
 
+    def next_page(self):
+        nextpg = self.page_counter + 1
+        self.page_counter = nextpg
+        self.show_frame(self.user_pages[self.page_counter])
+    
+    def goto_page(self, page):
+        self.show_frame(self.user_pages[page])
+        
     # Displays the frames to the user
     def show_frame(self, cont):
         frame = self.frames[cont]
@@ -46,95 +56,98 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
         lbl.config(text= actions[value])
         # Button to go to next page should only go to forest path and be used in the forest area
         next_button = ttk.Button(master=None, text="Next!",
-        command= lambda: [controller.show_frame(Forest_Path),
+        command= lambda: [controller.next_page(),
         next_button.destroy(), player.set_location(), player.update_score()])
         # if user is in forest pathway make it so next button takes user to cabin area
         # And if user selects left while in forest path area make it so user is taken to loose screen 
-        if (conditional == True):
-            next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: [controller.show_frame(Cabin),
-            next_button.destroy(), player.set_location(), player.update_score()])
+        if ( value == 'left' and conditional == True):
+            print("CAN YOU SEE ME")
+            locations[1].situational(player, lbl2)
+            next_button = ttk.Button(master=None, text="You Died...",
+            command= lambda: [controller.goto_page(4), next_button.destroy()])
             next_button.place(relx=0.51, rely=0.6, anchor='center')
-            if value == 'left':
-                next_button.destroy()
-                locations[1].situational(player, lbl2)
-                next_button = ttk.Button(master=None, text="You Died...",
-                command= lambda: [controller.show_frame(loosescreen), next_button.destroy()])
-        # if user is in cabin area make it so next button is re-defined and now takes user to Tundra area
-        if (conditional == 1):
+        
+        elif (value != 'left' and conditional == True):
             next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: [controller.show_frame(Tundra),
+            command= lambda: controller.next_page())
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+            
+        # if user is in cabin area make it so next button is re-defined and now takes user to Tundra area
+        elif (conditional == 1):
+            next_button = ttk.Button(master=None, text="Next!",
+            command= lambda: [controller.next_page(),
             next_button.destroy(), player.set_location(), player.update_score()])
             next_button.place(relx=0.51, rely=0.6, anchor='center')
         # if user is in tundra area re-define button and take user to tundra path area
-        if (conditional == 2):
+        elif (conditional == 2):
             next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: [controller.show_frame(Tundra_Path),
+            command= lambda: [controller.next_page(),
             next_button.destroy(), player.set_location(), player.update_score()])
             next_button.place(relx=0.51, rely=0.6, anchor='center')
         # if user does not have coat in inv and tries to do an action take user to loose screen condition
         # if not then allow the user to access next ocean area
-        if (conditional == 3):
+        elif (conditional == 3):
             if player.loc_get() == locations[4] and coat not in player.inventory:
                 btn.destroy()
                 locations[4].situational(player, lbl2)
                 next_button = ttk.Button(master=None, text="Next!",
-                command= lambda: [controller.show_frame(loosescreen),
+                command= lambda: [controller.next_page(),
                 next_button.destroy()])
                 next_button.place(relx= 0.51, rely= 0.6, anchor='center')
             else:
                 next_button = ttk.Button(master=None, text="Next!",
-                command= lambda: [controller.show_frame(Ocean),
+                command= lambda: [controller.next_page(),
                 next_button.destroy(), player.set_location(), player.update_score()])
                 next_button.place(relx=0.51, rely=0.6, anchor='center')
         # if user is in Tunnel area and selects left then take user to loose screen.
         # if not then allow user to access House area
-        if (conditional == 4):
-            if value == 'left':
-                player.set_act_taken()
-                lbl.configure(text=actions[value])
-                locations[7].situational(player, lbl2)
-                btn.destroy()
-                next_button = ttk.Button(master=None, text="Next!",
-                command= lambda:[controller.show_frame(loosescreen),
-                next_button.destroy()])
-                next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-            else: 
-                next_button = ttk.Button(master=None, text="Next!",
-                command= lambda: controller.show_frame(House))
-                next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-        # if user is in area Ocean allow them to access Cave area with swim action
-        if (conditional == 5):
+        elif (value == 'left' and conditional == 4):
+            player.set_act_taken()
+            print("CAN YOU SEE ME")
+            lbl.configure(text=actions[value])
+            locations[7].situational(player, lbl2)
+            btn.destroy()
             next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.show_frame(Cave))
+            command= lambda:[controller.next_page(),
+            next_button.destroy()])
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
+        elif ( value != 'left' and conditional == 4): 
+            next_button = ttk.Button(master=None, text="Next!",
+            command= lambda: controller.next_page())
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+        # if user is in area Ocean allow them to access Cave area with swim action
+        elif (conditional == 5):
+            next_button = ttk.Button(master=None, text="Next!",
+            command= lambda: controller.next_page())
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
         # if user area is in cave allow them to access Tunnel area with next button
-        if (conditional == 6):
+        elif (conditional == 6):
             next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.show_frame(Tunnel))
+            command= lambda: controller.next_page())
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
         # if user is in tunnel area allow user to access House area with next button
-        if (conditional == 7):
+        elif (conditional == 7):
             next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.show_frame(House))
+            command= lambda: controller.next_page())
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
         # if user is in area house then allow them to access Hospital area with next button
-        if (conditional == 8):
+        elif (conditional == 8):
             next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.show_frame(Hospital))
+            command= lambda: controller.next_page())
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
         # allows user to see their current location
-        if value == 'location':
+        elif value == 'location':
             player.set_act_taken()
             lbl.config(text=actions[value] + player.loc_get().zonename())
             lbl2.configure(master=None, text="")
         # Allows user to view score
-        if value == 'score':
+        elif value == 'score':
             player.set_act_taken()
             lbl.configure(text= actions[value] + str(player.score_return()))
             lbl2.configure(master=None, text="")
         # Allows user to find items and either add them to inventory or discard them if area has search available
-        if value == 'search':
+        elif value == 'search':
             player.set_act_taken()
             lbl.configure(text= actions[value])
             lbl2.configure(master=None, text="would you like to pick up the item?")
@@ -149,7 +162,7 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')])
             no_btn.place(relx=0.6, rely=0.5, anchor= 'center')
         # allows user to open inventory, select an item, and use the item or return back to selection screen.
-        if value == 'inventory':
+        elif value == 'inventory':
             player.set_act_taken()
             inv_list = tk.Listbox(master=None, selectmode= 'single',)
             inv_list.place(relx=0.51, rely=0.5, anchor='center')
@@ -159,27 +172,28 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             use.place(relx = 0.48, rely= 0.7, anchor='center')
             next_button.place(relx=0.51, rely=0.6, anchor='center')
         # lets user take a right path
-        if value == 'right':
+        elif value == 'right':
             player.set_act_taken()
             lbl.configure(text= actions[value])
             player.loc_get().after_desc(lbl2)
             btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
         # lets user take a left path
-        if value == 'left':
+        elif (value == 'left' and player.loc_get() != locations[1] and player.loc_get() != locations[7]):
             player.set_act_taken()
+            print("REACH")
             lbl.configure(text= actions[value])
             player.loc_get().after_desc(lbl2)
             btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
         # if user selects this option which is only available in Tundra_Path, lead to loose screen
-        if value == 'fight':
+        elif value == 'fight':
             player.set_act_taken()
             lbl.configure(text= actions[value])
             locations[4].situational(player, lbl2)
             btn.destroy()
             next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: [controller.show_frame(loosescreen),
+            command= lambda: [controller.next_page(),
             next_button.destroy()])
 
 #Function handles all actions of what user selects in combobox using if statements 
@@ -224,7 +238,7 @@ class StartPage(tk.Frame):
         label = tk.Label(self, text="Welcome To Bio-Saga!", font=LARGE_FONT)
         label = tk.Label(self, text=title(), font=LARGE_FONT)
         label.pack(pady=10,padx=10)
-        btn = ttk.Button(self, text="Begin!", command= lambda: controller.show_frame(CharCreation))
+        btn = ttk.Button(self, text="Begin!", command= lambda: controller.next_page())
         btn.pack()
 
 # Allows user to customize their character by naming them
@@ -237,7 +251,7 @@ class CharCreation(tk.Frame):
         username = ttk.Entry(self)
         username.get()
         username.pack(pady=10,padx=10)
-        btn = ttk.Button(self, text="Start", command= lambda: controller.show_frame(Forest))
+        btn = ttk.Button(self, text="Start", command= lambda: controller.next_page())
         btn.pack()
         
 # first location in the game all below create a combobox list based on dictionary actions which are defined
@@ -285,7 +299,7 @@ class Forest_Path(tk.Frame):
         command= lambda: [getvalue(self.box, actions, lbl, lbl2, btn, controller)])
 
         lbl = ttk.Label(self, text="", font=LARGE_FONT)
-        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
+        lbl2 =ttk.Label(self, text="", font= LARGE_FONT)
         
         btn.pack(pady=10, padx=10)
         lbl.pack()
@@ -299,7 +313,7 @@ class Cabin(tk.Frame):
         label.pack(pady=10, padx=10)
         label = tk.Label(self, text= locations[2].description, font=LARGE_FONT)
         label.pack(pady=10,padx=10)
-
+        
         actions = locations[2].actions
         self.box = ttk.Combobox(self, values=list(actions.keys()), state="readonly", justify="center")
         self.box.bind("<<ComboboxSelected>>")
@@ -310,7 +324,9 @@ class Cabin(tk.Frame):
         
         lbl = ttk.Label(self, text="", font=LARGE_FONT)
         lbl2=ttk.Label(self, text="", font= LARGE_FONT)
-        
+        def test(self):
+            print("REACHED CABIN")
+        # test(self)
         btn.pack(pady=10, padx=10)
         lbl.pack()
         lbl2.pack()
@@ -355,7 +371,7 @@ class Tundra_Path(tk.Frame):
         self.box.bind("<<ComboboxSelected>>")
         self.box.pack(pady=10,padx=10)
 
-        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.show_frame(Tundra),
+        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.next_page(),
         next_button.destroy(), player.set_location(), player.update_score()])
 
         btn= ttk.Button(self, text="Continue!",
@@ -382,7 +398,7 @@ class Ocean(tk.Frame):
         self.box.bind("<<ComboboxSelected>>")
         self.box.pack(pady=10,padx=10)
 
-        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.show_frame(Tundra),
+        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.next_page(),
         next_button.destroy(), player.set_location(), player.update_score()])
 
         btn= ttk.Button(self, text="Continue!",
@@ -409,7 +425,7 @@ class Cave(tk.Frame):
         self.box.bind("<<ComboboxSelected>>")
         self.box.pack(pady=10,padx=10)
 
-        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.show_frame(Tundra),
+        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.next_page(),
         next_button.destroy(), player.set_location(), player.update_score()])
 
         btn= ttk.Button(self, text="Continue!",
@@ -436,7 +452,7 @@ class Tunnel(tk.Frame):
         self.box.bind("<<ComboboxSelected>>")
         self.box.pack(pady=10,padx=10)
 
-        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.show_frame(Tundra),
+        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.next_page(),
         next_button.destroy(), player.set_location(), player.update_score()])
 
         btn= ttk.Button(self, text="Continue!",
@@ -463,7 +479,7 @@ class House(tk.Frame):
         self.box.bind("<<ComboboxSelected>>")
         self.box.pack(pady=10,padx=10)
 
-        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.show_frame(Tundra),
+        next_button = ttk.Button(self, text="Begin!", command= lambda: [controller.next_page(),
         next_button.destroy(), player.set_location(), player.update_score()])
         
         btn= ttk.Button(self, text="Continue!",
@@ -511,7 +527,7 @@ class loosescreen(tk.Frame):
         lbl2=ttk.Label(self, text="", font= LARGE_FONT)
 
         loose_btn = ttk.Button(self, text= "Yes", command= lambda: [replay(player, locations),
-        controller.show_frame(StartPage), ])
+        controller.next_page(), ])
         quit_btn = ttk.Button(self, text="No", command= lambda: quit())
         lbl.pack()
         lbl2.pack()
