@@ -27,14 +27,20 @@ class BioSagaApp(tk.Tk):
         self.frames = {}
         self.page_counter = 0
         #For loop that iterates through all possible pages for user to see and shows them
-        self.user_pages= [StartPage, CharCreation, Forest, Forest_Path, loosescreen,
-        Cabin, Tundra, Tundra_Path, Ocean, Cave, Tunnel, House, Hospital]
+        self.user_pages= [StartPage, CharCreation, Forest, Forest_Path,
+        Cabin, Tundra, Tundra_Path, Ocean, Cave, Tunnel, House, Hospital, loosescreen]
         for F in (self.user_pages):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
         self.show_frame(self.user_pages[0])
 
+    def reset_widgets(self, combobox):
+        combobox.set('')
+
+    def reset_pages(self):
+        self.page_counter = 0
+        
     def next_page(self):
         nextpg = self.page_counter + 1
         self.page_counter = nextpg
@@ -61,17 +67,12 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
         # if user is in forest pathway make it so next button takes user to cabin area
         # And if user selects left while in forest path area make it so user is taken to loose screen 
         if ( value == 'left' and conditional == True):
-            print("CAN YOU SEE ME")
+            btn.destroy()
             locations[1].situational(player, lbl2)
             next_button = ttk.Button(master=None, text="You Died...",
-            command= lambda: [controller.goto_page(4), next_button.destroy()])
+            command= lambda: [controller.goto_page(12), next_button.destroy()])
             next_button.place(relx=0.51, rely=0.6, anchor='center')
-        
-        elif (value != 'left' and conditional == True):
-            next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.next_page())
-            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-            
+           
         # if user is in cabin area make it so next button is re-defined and now takes user to Tundra area
         elif (conditional == 1):
             next_button = ttk.Button(master=None, text="Next!",
@@ -137,17 +138,20 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             command= lambda: controller.next_page())
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
         # allows user to see their current location
-        elif value == 'location':
+        if value == ('location'):
+            print("hi")
             player.set_act_taken()
             lbl.config(text=actions[value] + player.loc_get().zonename())
             lbl2.configure(master=None, text="")
+
         # Allows user to view score
-        elif value == 'score':
+        if value ==('score'):
             player.set_act_taken()
             lbl.configure(text= actions[value] + str(player.score_return()))
             lbl2.configure(master=None, text="")
         # Allows user to find items and either add them to inventory or discard them if area has search available
-        elif value == 'search':
+
+        if value == 'search':
             player.set_act_taken()
             lbl.configure(text= actions[value])
             lbl2.configure(master=None, text="would you like to pick up the item?")
@@ -162,7 +166,8 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')])
             no_btn.place(relx=0.6, rely=0.5, anchor= 'center')
         # allows user to open inventory, select an item, and use the item or return back to selection screen.
-        elif value == 'inventory':
+
+        if value == 'inventory':
             player.set_act_taken()
             inv_list = tk.Listbox(master=None, selectmode= 'single',)
             inv_list.place(relx=0.51, rely=0.5, anchor='center')
@@ -171,23 +176,25 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             use.destroy(), inv_list.destroy(), btn.destroy()])
             use.place(relx = 0.48, rely= 0.7, anchor='center')
             next_button.place(relx=0.51, rely=0.6, anchor='center')
+
         # lets user take a right path
-        elif value == 'right':
+        if value == 'right':
             player.set_act_taken()
             lbl.configure(text= actions[value])
             player.loc_get().after_desc(lbl2)
             btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
         # lets user take a left path
-        elif (value == 'left' and player.loc_get() != locations[1] and player.loc_get() != locations[7]):
+        if (value == 'left' and player.loc_get() != locations[1] and player.loc_get() != locations[7]):
             player.set_act_taken()
-            print("REACH")
             lbl.configure(text= actions[value])
             player.loc_get().after_desc(lbl2)
             btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
         # if user selects this option which is only available in Tundra_Path, lead to loose screen
-        elif value == 'fight':
+        if value == 'fight':
             player.set_act_taken()
             lbl.configure(text= actions[value])
             locations[4].situational(player, lbl2)
@@ -225,6 +232,39 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
             common_functions(7,combobox, actions, lbl, lbl2, btn, controller)
         # if user is in Hospital then play this
         if (area == locations[9]):
+            common_functions(8,combobox, actions, lbl, lbl2, btn, controller)
+        # if none of the above is true then perform normal functionality
+        else:
+            common_functions(False,combobox, actions, lbl, lbl2, btn, controller)
+
+#Function handles all actions of what user selects in combobox using if statements 
+def getvalue(combobox, actions, lbl, lbl2, btn, controller):
+        area = player.loc_get()
+        # if user is in forest_pathway then run this
+        if (area == locations[1]):
+            common_functions(True,combobox, actions, lbl, lbl2, btn, controller)
+        elif (area == locations[2]):
+            common_functions(1,combobox, actions, lbl, lbl2, btn, controller)
+        # if user is in Tundra then play this
+        elif (area == locations[3]):
+            common_functions(2,combobox, actions, lbl, lbl2, btn, controller)
+        # if user is in Tundra_Path then play this
+        elif (area == locations[4]):
+            common_functions(3,combobox, actions, lbl, lbl2, btn, controller)
+        # if user is in cave then play this
+        elif (area == locations[7]):
+            common_functions(4,combobox, actions, lbl, lbl2, btn, controller)
+        # if user is in Ocean then play this
+        elif (area == locations[5]):
+            common_functions(5,combobox, actions, lbl, lbl2, btn, controller)
+        # if user is in Cave then play this
+        elif (area == locations[6]):
+            common_functions(6,combobox, actions, lbl, lbl2, btn, controller)
+        # if user is in House then play this
+        elif (area == locations[8]):
+            common_functions(7,combobox, actions, lbl, lbl2, btn, controller)
+        # if user is in Hospital then play this
+        elif (area == locations[9]):
             common_functions(8,combobox, actions, lbl, lbl2, btn, controller)
         # if none of the above is true then perform normal functionality
         else:
@@ -279,6 +319,8 @@ class Forest(tk.Frame):
         btn.pack(pady=10, padx=10)
         lbl.pack()
         lbl2.pack()
+    def reset(self):
+        self.controller.reset_widgets(self.box, self.lbl, self.lbl2)
 
 
 class Forest_Path(tk.Frame):
@@ -527,7 +569,8 @@ class loosescreen(tk.Frame):
         lbl2=ttk.Label(self, text="", font= LARGE_FONT)
 
         loose_btn = ttk.Button(self, text= "Yes", command= lambda: [replay(player, locations),
-        controller.next_page(), ])
+        controller.reset_pages(),
+        controller.goto_page(0)])
         quit_btn = ttk.Button(self, text="No", command= lambda: quit())
         lbl.pack()
         lbl2.pack()
