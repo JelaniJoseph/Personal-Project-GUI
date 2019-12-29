@@ -228,7 +228,7 @@ class Zone:
                 print(self.actions[action])
                 player.set_act_taken()
                 self.searched == True
-                print("what will", username.get()(), "do with the item?")
+                print("what will", username.get(), "do with the item?")
                 print("Type 'take' to take the item, or 'drop' to leave it behind!")
                 decide = input("take, or drop? ")
                 if decide == 'take':
