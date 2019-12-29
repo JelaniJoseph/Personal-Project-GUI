@@ -104,7 +104,6 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
         # if not then allow user to access House area
         elif (value == 'left' and conditional == 4):
             player.set_act_taken()
-            print("CAN YOU SEE ME")
             lbl.configure(text=actions[value])
             locations[7].situational(player, lbl2)
             btn.destroy()
@@ -139,13 +138,14 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
         # allows user to see their current location
         if value == ('location'):
-            print("hi")
+            next_button.destroy()
             player.set_act_taken()
             lbl.config(text=actions[value] + player.loc_get().zonename())
             lbl2.configure(master=None, text="")
 
         # Allows user to view score
         if value ==('score'):
+            next_button.destroy()
             player.set_act_taken()
             lbl.configure(text= actions[value] + str(player.score_return()))
             lbl2.configure(master=None, text="")
@@ -168,6 +168,7 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
         # allows user to open inventory, select an item, and use the item or return back to selection screen.
 
         if value == 'inventory':
+            next_button.destroy()
             player.set_act_taken()
             inv_list = tk.Listbox(master=None, selectmode= 'single',)
             inv_list.place(relx=0.51, rely=0.5, anchor='center')
