@@ -28,7 +28,7 @@ class BioSagaApp(tk.Tk):
         self.page_counter = 0
         #For loop that iterates through all possible pages for user to see and shows them
         self.user_pages= [StartPage, CharCreation, Forest, Forest_Path,
-        Cabin, Tundra, Tundra_Path, Ocean, Cave, Tunnel, House, Hospital, loosescreen]
+        Cabin, Tundra, Tundra_Path, Ocean, Cave, Tunnel, House, Hospital, loosescreen, winscreen]
         for F in (self.user_pages):
             frame = F(container, self)
             self.frames[F] = frame
@@ -75,11 +75,21 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
            
         # if user does not have coat in inv and tries to do an action take user to loose screen condition
         # if not then allow the user to access next ocean area
+        elif (player.loc_get() == locations[9]):
+            next_button = ttk.Button(master=None, text="Next",
+            command= lambda: [controller.goto_page(13),
+            next_button.destroy()])
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
+        elif (Wisp_in_bottle.use == 0):
+            next_button = ttk.Button(master=None, text="Next",
+            command= lambda: [controller.goto_page(13),
+            next_button.destroy()])
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
 
         elif (value == 'walk' or value == 'map' and coat in player.inventory):
-            print("HIIII")
             next_button = ttk.Button(master=None, text="Next",
-            command= lambda: [controller.next_page(),
+            command= lambda: [controller.next_page(), player.set_location(),
             next_button.destroy()])
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
 
@@ -101,6 +111,13 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             next_button = ttk.Button(master=None, text="Next!",
             command= lambda:[controller.goto_page(12),
             next_button.destroy()])
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
+        if (value == 'wander' or value == 'look' or value == 'continue'):
+            player.set_act_taken()
+            lbl.configure(text= actions[value])
+            player.loc_get().after_desc(lbl2)
+            btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
 
         if value == 'jump':
@@ -142,14 +159,17 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
 
         # allows user to open inventory, select an item, and use the item or return back to selection screen.
         if value == 'inventory':
-            next_button.destroy()
+            # btn.destroy()
             player.set_act_taken()
             inv_list = tk.Listbox(master=None, selectmode= 'single',)
             inv_list.place(relx=0.51, rely=0.5, anchor='center')
             lbl.configure(text= player.inventory_show(lbl, inv_list))
             use= ttk.Button(master=None, text="use", command= lambda: [player.inventory_use(lbl, inv_list),
-            use.destroy(), inv_list.destroy(), btn.destroy()])
-            use.place(relx = 0.48, rely= 0.7, anchor='center')
+            use.destroy(), inv_list.destroy(), btn.destroy(), exit.destroy()])
+            use.place(relx = 0.45, rely= 0.66, anchor='center')
+            exit = ttk.Button(master= None, text= 'exit', command = lambda: [
+            use.destroy(), inv_list.destroy(), btn.pack(), next_button.destroy(), exit.destroy()])
+            exit.place(relx= 0.55, rely= 0.64)
             next_button.place(relx=0.51, rely=0.6, anchor='center')
 
         # lets user take a right path
@@ -160,6 +180,13 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
         
+        if value == 'swim':
+            player.set_act_taken()
+            lbl.configure(text= actions[value])
+            player.loc_get().after_desc(lbl2)
+            btn.destroy()
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
         if value == 'rest':
             player.set_act_taken()
             lbl.configure(text= actions[value])
@@ -500,16 +527,27 @@ class loosescreen(tk.Frame):
         self.label = tk.Label(self, text="Game Over\n =====================\n", font=LARGE_FONT)
         self.label.pack(pady=10, padx=10)
 
-        lbl = ttk.Label(self, text="The game is over, but would you like to replay?", font=LARGE_FONT)
-        lbl2=ttk.Label(self, text="", font= LARGE_FONT)
-
-        loose_btn = ttk.Button(self, text= "Yes", command= lambda: [replay(player, locations),
-        controller.reset_pages(),
-        controller.goto_page(0)])
-        quit_btn = ttk.Button(self, text="No", command= lambda: quit())
+        lbl = ttk.Label(self, text="The game is over!", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text="",
+         font= LARGE_FONT)
+        quit_btn = ttk.Button(self, text="End", command= lambda: controller.destroy())
         lbl.pack()
         lbl2.pack()
-        loose_btn.pack()
+        quit_btn.pack()
+
+
+class winscreen(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self,parent)
+        self.label = tk.Label(self, text="You Won!\n =====================\n", font=LARGE_FONT)
+        self.label.pack(pady=10, padx=10)
+
+        lbl = ttk.Label(self, text="The game is over!", font=LARGE_FONT)
+        lbl2=ttk.Label(self, text= " This Game Was created by Jelani Joseph, thanks for playing!",
+        font= LARGE_FONT)
+        quit_btn = ttk.Button(self, text="End", command= lambda: controller.destroy())
+        lbl.pack()
+        lbl2.pack()
         quit_btn.pack()
 
 
