@@ -73,69 +73,43 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             command= lambda: [controller.goto_page(12), next_button.destroy()])
             next_button.place(relx=0.51, rely=0.6, anchor='center')
            
-        # if user is in cabin area make it so next button is re-defined and now takes user to Tundra area
-        elif (conditional == 1):
-            next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: [controller.next_page(),
-            next_button.destroy(), player.set_location(), player.update_score()])
-            next_button.place(relx=0.51, rely=0.6, anchor='center')
-        # if user is in tundra area re-define button and take user to tundra path area
-        elif (conditional == 2):
-            next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: [controller.next_page(),
-            next_button.destroy(), player.set_location(), player.update_score()])
-            next_button.place(relx=0.51, rely=0.6, anchor='center')
         # if user does not have coat in inv and tries to do an action take user to loose screen condition
         # if not then allow the user to access next ocean area
-        elif (conditional == 3):
-            if player.loc_get() == locations[4] and coat not in player.inventory:
-                btn.destroy()
-                locations[4].situational(player, lbl2)
-                next_button = ttk.Button(master=None, text="Next!",
-                command= lambda: [controller.next_page(),
-                next_button.destroy()])
-                next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-            else:
-                next_button = ttk.Button(master=None, text="Next!",
-                command= lambda: [controller.next_page(),
-                next_button.destroy(), player.set_location(), player.update_score()])
-                next_button.place(relx=0.51, rely=0.6, anchor='center')
+
+        elif (value == 'walk' or value == 'map' and coat in player.inventory):
+            print("HIIII")
+            next_button = ttk.Button(master=None, text="Next",
+            command= lambda: [controller.next_page(),
+            next_button.destroy()])
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
+        elif (value == 'walk' or value == 'map' and coat not in player.inventory):
+            btn.destroy()
+            locations[4].situational(player, lbl2)
+            next_button = ttk.Button(master=None, text="You Died...",
+            command= lambda: [controller.goto_page(12),
+            next_button.destroy()])
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+           
         # if user is in Tunnel area and selects left then take user to loose screen.
         # if not then allow user to access House area
-        elif (value == 'left' and conditional == 4):
+        elif (value == 'left' and player.loc_get() == locations[7]):
             player.set_act_taken()
             lbl.configure(text=actions[value])
             locations[7].situational(player, lbl2)
             btn.destroy()
             next_button = ttk.Button(master=None, text="Next!",
-            command= lambda:[controller.next_page(),
+            command= lambda:[controller.goto_page(12),
             next_button.destroy()])
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
 
-        elif ( value != 'left' and conditional == 4): 
-            next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.next_page())
+        if value == 'jump':
+            player.set_act_taken()
+            lbl.configure(text= actions[value])
+            player.loc_get().after_desc(lbl2)
+            btn.destroy()
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-        # if user is in area Ocean allow them to access Cave area with swim action
-        elif (conditional == 5):
-            next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.next_page())
-            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-        # if user area is in cave allow them to access Tunnel area with next button
-        elif (conditional == 6):
-            next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.next_page())
-            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-        # if user is in tunnel area allow user to access House area with next button
-        elif (conditional == 7):
-            next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.next_page())
-            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
-        # if user is in area house then allow them to access Hospital area with next button
-        elif (conditional == 8):
-            next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: controller.next_page())
-            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
         # allows user to see their current location
         if value == ('location'):
             next_button.destroy()
@@ -149,8 +123,8 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             player.set_act_taken()
             lbl.configure(text= actions[value] + str(player.score_return()))
             lbl2.configure(master=None, text="")
-        # Allows user to find items and either add them to inventory or discard them if area has search available
 
+        # Allows user to find items and either add them to inventory or discard them if area has search available
         if value == 'search':
             player.set_act_taken()
             lbl.configure(text= actions[value])
@@ -165,8 +139,8 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             player.loc_get().after_desc(lbl2), btn.destroy(),
             next_button.place(relx= 0.51, rely= 0.6, anchor='center')])
             no_btn.place(relx=0.6, rely=0.5, anchor= 'center')
-        # allows user to open inventory, select an item, and use the item or return back to selection screen.
 
+        # allows user to open inventory, select an item, and use the item or return back to selection screen.
         if value == 'inventory':
             next_button.destroy()
             player.set_act_taken()
@@ -180,6 +154,20 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
 
         # lets user take a right path
         if value == 'right':
+            player.set_act_taken()
+            lbl.configure(text= actions[value])
+            player.loc_get().after_desc(lbl2)
+            btn.destroy()
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+        
+        if value == 'rest':
+            player.set_act_taken()
+            lbl.configure(text= actions[value])
+            player.loc_get().after_desc(lbl2)
+            btn.destroy()
+            next_button.place(relx= 0.51, rely= 0.6, anchor='center')
+
+        if value == 'find an exit':
             player.set_act_taken()
             lbl.configure(text= actions[value])
             player.loc_get().after_desc(lbl2)
@@ -201,7 +189,7 @@ def common_functions(conditional, combobox, actions, lbl, lbl2, btn, controller)
             locations[4].situational(player, lbl2)
             btn.destroy()
             next_button = ttk.Button(master=None, text="Next!",
-            command= lambda: [controller.next_page(),
+            command= lambda: [controller.goto_page(12),
             next_button.destroy()])
 
 #Function handles all actions of what user selects in combobox using if statements 
@@ -210,66 +198,12 @@ def getvalue(combobox, actions, lbl, lbl2, btn, controller):
         # if user is in forest_pathway then run this
         if (area == locations[1]):
             common_functions(True,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Cabin then play this
-        if (area == locations[2]):
-            common_functions(1,combobox, actions, lbl, lbl2, btn, controller)
         # if user is in Tundra then play this
-        if (area == locations[3]):
-            common_functions(2,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Tundra_Path then play this
-        if (area == locations[4]):
-            common_functions(3,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in cave then play this
-        if (area == locations[7]):
-            common_functions(4,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Ocean then play this
-        if (area == locations[5]):
-            common_functions(5,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Cave then play this
-        if (area == locations[6]):
-            common_functions(6,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in House then play this
-        if (area == locations[8]):
-            common_functions(7,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Hospital then play this
-        if (area == locations[9]):
-            common_functions(8,combobox, actions, lbl, lbl2, btn, controller)
-        # if none of the above is true then perform normal functionality
         else:
-            common_functions(False,combobox, actions, lbl, lbl2, btn, controller)
+            common_functions(None, combobox, actions, lbl, lbl2, btn, controller)
 
 #Function handles all actions of what user selects in combobox using if statements 
-def getvalue(combobox, actions, lbl, lbl2, btn, controller):
-        area = player.loc_get()
-        # if user is in forest_pathway then run this
-        if (area == locations[1]):
-            common_functions(True,combobox, actions, lbl, lbl2, btn, controller)
-        elif (area == locations[2]):
-            common_functions(1,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Tundra then play this
-        elif (area == locations[3]):
-            common_functions(2,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Tundra_Path then play this
-        elif (area == locations[4]):
-            common_functions(3,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in cave then play this
-        elif (area == locations[7]):
-            common_functions(4,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Ocean then play this
-        elif (area == locations[5]):
-            common_functions(5,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Cave then play this
-        elif (area == locations[6]):
-            common_functions(6,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in House then play this
-        elif (area == locations[8]):
-            common_functions(7,combobox, actions, lbl, lbl2, btn, controller)
-        # if user is in Hospital then play this
-        elif (area == locations[9]):
-            common_functions(8,combobox, actions, lbl, lbl2, btn, controller)
-        # if none of the above is true then perform normal functionality
-        else:
-            common_functions(False,combobox, actions, lbl, lbl2, btn, controller)
+
 
 # First page the user sees displays title and prompts user to continue to next page
 class StartPage(tk.Frame):
